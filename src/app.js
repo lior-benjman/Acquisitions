@@ -1,10 +1,10 @@
 import express from 'express';
-import logger from "./config/logger.js";
-import helmet from "helmet";
-import morgan from "morgan";
-import cors from "cors";
-import cookieParser from "cookie-parser";
-import authRoutes from "./routes/auth.routes.js";
+import logger from './config/logger.js';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import authRoutes from './routes/auth.routes.js';
 
 const app = express();
 
@@ -22,11 +22,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/health', (req, res) => {
-    res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() , uptime: process.uptime() });
-})
+  res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() , uptime: process.uptime() });
+});
 
 app.get('/api', (req, res) => {
-    res.status(200).json({ message: 'Acquisitions api is running!' });
+  res.status(200).json({ message: 'Acquisitions api is running!' });
 });
 
 app.use('/api/auth', authRoutes);

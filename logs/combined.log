@@ -17,3 +17,23 @@
 {"level":"info","message":"::1 - - [08/Oct/2025:17:09:43 +0000] \"GET /api HTTP/1.1\" 200 42 \"-\" \"HTTPie\"","service":"aquisitions-api"}
 {"level":"info","message":"::1 - - [08/Oct/2025:17:09:58 +0000] \"GET /health HTTP/1.1\" 200 75 \"-\" \"HTTPie\"","service":"aquisitions-api"}
 {"level":"info","message":"::1 - - [08/Oct/2025:17:10:26 +0000] \"POST /api/auth/sign-in HTTP/1.1\" 200 31 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"info","message":"Hello from Acquisitions!","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [09/Oct/2025:06:24:34 +0000] \"GET / HTTP/1.1\" 200 24 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [09/Oct/2025:06:24:42 +0000] \"GET /api/auth HTTP/1.1\" 404 147 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [09/Oct/2025:06:25:04 +0000] \"GET /api HTTP/1.1\" 200 42 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [09/Oct/2025:06:25:12 +0000] \"GET /health HTTP/1.1\" 200 74 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [09/Oct/2025:06:29:05 +0000] \"GET /sign-up HTTP/1.1\" 404 146 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [09/Oct/2025:06:29:12 +0000] \"GET /api/sign-up HTTP/1.1\" 404 150 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [09/Oct/2025:06:29:23 +0000] \"GET /api/auth/sign-up HTTP/1.1\" 404 155 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"warn","message":"Validation error during sign-up:","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [09/Oct/2025:06:29:32 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 400 25 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"warn","message":"Validation error during sign-up:","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [09/Oct/2025:06:31:30 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 400 238 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"warn","message":"Validation error during sign-up:","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [09/Oct/2025:06:32:54 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 400 88 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"warn","message":"Validation error during sign-up:","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [09/Oct/2025:06:37:39 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 400 88 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"warn","message":"Validation error during sign-up:","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [09/Oct/2025:06:39:11 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 400 140 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"info","message":"User signed up: lior114452@gmail.com","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [09/Oct/2025:06:39:37 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 201 116 \"-\" \"HTTPie\"","service":"aquisitions-api"}
