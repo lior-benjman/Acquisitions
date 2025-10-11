@@ -130,3 +130,15 @@
 {"level":"info","message":"::1 - - [11/Oct/2025:14:54:30 +0000] \"POST /api/auth/sign-in HTTP/1.1\" 401 37 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.6584\"","service":"aquisitions-api"}
 {"level":"info","message":"User signed out successfully","service":"aquisitions-api"}
 {"level":"info","message":"::1 - - [11/Oct/2025:14:55:35 +0000] \"POST /api/auth/sign-out HTTP/1.1\" 200 42 \"-\" \"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.26100.6584\"","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [11/Oct/2025:15:46:21 +0000] \"GET /health HTTP/1.1\" 500 91 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [11/Oct/2025:15:46:27 +0000] \"GET /health HTTP/1.1\" 500 91 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [11/Oct/2025:15:48:47 +0000] \"GET /health HTTP/1.1\" 200 76 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [11/Oct/2025:16:23:01 +0000] \"GET /health HTTP/1.1\" 200 78 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [11/Oct/2025:16:23:02 +0000] \"GET /health HTTP/1.1\" 200 76 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [11/Oct/2025:16:23:03 +0000] \"GET /health HTTP/1.1\" 200 78 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [11/Oct/2025:16:23:03 +0000] \"GET /health HTTP/1.1\" 200 78 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"level":"info","message":"::1 - - [11/Oct/2025:16:23:03 +0000] \"GET /health HTTP/1.1\" 200 78 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"ip":"::1","level":"warn","message":"Rate limit exceeded:","path":"/health","service":"aquisitions-api","userAgent":"HTTPie"}
+{"level":"info","message":"::1 - - [11/Oct/2025:16:23:04 +0000] \"GET /health HTTP/1.1\" 403 52 \"-\" \"HTTPie\"","service":"aquisitions-api"}
+{"ip":"::1","level":"warn","message":"Rate limit exceeded:","path":"/health","service":"aquisitions-api","userAgent":"HTTPie"}
+{"level":"info","message":"::1 - - [11/Oct/2025:16:23:04 +0000] \"GET /health HTTP/1.1\" 403 52 \"-\" \"HTTPie\"","service":"aquisitions-api"}
