@@ -1,69 +1,51 @@
 version: '3.8'
 
 services:
-  # Neon Local Database Proxy
+  # Neon Local proxy for development
   neon-local:
     image: neondatabase/neon_local:latest
-    container_name: acquisition-neon-local
+    container_name: acquisitions-neon-local
     ports:
       - '5432:5432'
     env_file:
       - .env.development
     volumes:
-      # Optional: Persist branches per Git branch
+      # Persist branch metadata per git branch (optional)
       - ./.neon_local/:/tmp/.neon_local
       - ./.git/HEAD:/tmp/.git/HEAD:ro,consistent
-    networks:
-      - acquisition-network
     healthcheck:
       test: ['CMD', 'pg_isready', '-h', 'localhost', '-p', '5432', '-U', 'neon']
-      interval: 10s
-      timeout: 5s
+      interval: 5s
+      timeout: 3s
       retries: 5
-      start_period: 30s
+      start_period: 10s
+    networks:
+      - acquisitions-dev
 
-  # Application Service
+  # Node.js application
   app:
     build:
       context: .
       dockerfile: Dockerfile
       target: development
-    container_name: acquisition-app-dev
+    container_name: acquisitions-app-dev
     ports:
-      - '3000:3000'
+      - '${PORT:-3000}:3000'
     env_file:
       - .env.development
     volumes:
-      # Mount source code for hot reload
-      - ./src:/app/src:ro
-      - ./package.json:/app/package.json:ro
-      # Exclude node_modules to prevent conflicts
+      # Mount source code for development hot-reload
+      - .:/app
       - /app/node_modules
-    networks:
-      - acquisition-network
+      # Mount logs directory
+      - ./logs:/app/logs
     depends_on:
       neon-local:
         condition: service_healthy
+    networks:
+      - acquisitions-dev
     restart: unless-stopped
-    stdin_open: true
-    tty: true
-    healthcheck:
-      test:
-        [
-          'CMD',
-          'node',
-          '-e',
-          "const http = require('http'); const req = http.request({hostname: 'localhost', port: 3000, path: '/health'}, (res) => process.exit(res.statusCode === 200 ? 0 : 1)); req.on('error', () => process.exit(1)); req.end();",
-        ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
 
 networks:
-  acquisition-network:
+  acquisitions-dev:
     driver: bridge
-
-volumes:
-  neon-local-data:
-    driver: local
