@@ -3,6 +3,10 @@ import logger from '../config/logger.js';
 import { slidingWindow } from '@arcjet/node';
 
 const securityMiddleware = async (req, res, next) => {
+    // Skip external security checks during tests or when not configured
+    if (process.env.NODE_ENV === 'test' || !process.env.ARCJET_KEY) {
+        return next();
+    }
     try {
         const role = req.user?.role || 'guest';
 
