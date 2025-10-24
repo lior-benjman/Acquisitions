@@ -2,23 +2,24 @@ name: Tests
 
 on:
   push:
-    branches: [ main, staging ]
+    branches:
+      - main
+      - staging
   pull_request:
-    branches: [ main, staging ]
+    branches:
+      - main
+      - staging
 
 jobs:
-  unit-integration-tests:
+  test:
+    name: Run Tests
     runs-on: ubuntu-latest
-    env:
-      NODE_ENV: test
-      NODE_OPTIONS: --experimental-vm-modules
-      # Provide a valid-looking Postgres URL so imports succeed; tests don't hit DB
-      DATABASE_URL: postgresql://neon:npg@localhost:5432/neondb?sslmode=require
+
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js 20.x
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
@@ -28,44 +29,49 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        id: test
-        run: npm test -- --coverage
+        id: tests
+        run: |
+          echo "::notice::Running test suite..."
+          npm test
+        env:
+          NODE_ENV: test
+          NODE_OPTIONS: --experimental-vm-modules
+          DATABASE_URL: ${{ secrets.TEST_DATABASE_URL || 'postgresql://test:test@localhost:5432/test_acquisitions' }}
+          JWT_SECRET: test-secret-for-ci
+          LOG_LEVEL: error
 
-      - name: Upload coverage artifact
+      - name: Upload coverage reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: coverage
-          path: coverage/
-          if-no-files-found: ignore
+          name: coverage-reports
+          path: |
+            coverage/
+            test-results.xml
           retention-days: 30
+          if-no-files-found: warn
 
-      - name: Append coverage summary
+      - name: Generate test summary
         if: always()
         run: |
-          if [ -f coverage/coverage-summary.json ]; then
-            node -e '
-              const fs = require("fs");
-              const s = JSON.parse(fs.readFileSync("coverage/coverage-summary.json", "utf8"));
-              const t = s.total;
-              const lines = [
-                "## Test Coverage Summary",
-                "",
-                `Statements: ${t.statements.pct}% (${t.statements.covered}/${t.statements.total})`,
-                `Branches:   ${t.branches.pct}% (${t.branches.covered}/${t.branches.total})`,
-                `Functions:  ${t.functions.pct}% (${t.functions.covered}/${t.functions.total})`,
-                `Lines:      ${t.lines.pct}% (${t.lines.covered}/${t.lines.total})`
-              ].join("\n");
-              fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines + "\n");
-            ';
+          echo "## Test Results 🧪" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.tests.outcome }}" == "success" ]; then
+            echo "✅ All tests passed successfully!" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Coverage Status" >> $GITHUB_STEP_SUMMARY
+            echo "Coverage reports have been uploaded as artifacts and retained for 30 days." >> $GITHUB_STEP_SUMMARY
           else
-            echo "## Tests completed" >> "$GITHUB_STEP_SUMMARY";
+            echo "❌ Some tests failed. Please check the logs above for details." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
+            echo "1. Review the failing test output above" >> $GITHUB_STEP_SUMMARY
+            echo "2. Fix the failing tests locally" >> $GITHUB_STEP_SUMMARY
+            echo "3. Run \`npm test\` locally to verify fixes" >> $GITHUB_STEP_SUMMARY
+            echo "4. Commit and push your changes" >> $GITHUB_STEP_SUMMARY
           fi
 
-      - name: Annotate on failure
+      - name: Annotate test failures
         if: failure()
         run: |
-          echo "::error title=Tests failed::One or more tests failed. See logs above for details."
-          echo "## Tests Failed" >> "$GITHUB_STEP_SUMMARY"
-          echo "Please inspect the job logs for failing test output." >> "$GITHUB_STEP_SUMMARY"
-
+          echo "::error::Test suite failed - please check the test output for specific failure details"
+          echo "::notice::Run 'npm test' locally to reproduce and debug the failing tests"

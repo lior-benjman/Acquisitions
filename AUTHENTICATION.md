@@ -5,6 +5,7 @@ This project includes a comprehensive authentication and authorization system us
 ## Middleware Functions
 
 ### 1. `authenticateToken`
+
 **Purpose**: Validates JWT tokens and ensures user authentication
 **Usage**: For routes that require authentication
 
@@ -18,6 +19,7 @@ router.get('/protected', authenticateToken, (req, res) => {
 ```
 
 ### 2. `optionalAuth`
+
 **Purpose**: Attempts authentication but doesn't fail if no token is provided
 **Usage**: For routes that work for both authenticated and guest users
 
@@ -34,33 +36,45 @@ router.get('/public', optionalAuth, (req, res) => {
 ```
 
 ### 3. `requireRole(allowedRoles)`
+
 **Purpose**: Checks if authenticated user has required role(s)
 **Usage**: For role-based access control
 
 ```javascript
-import { authenticateToken, requireRole } from '../middleware/auth.middleware.js';
+import {
+  authenticateToken,
+  requireRole,
+} from '../middleware/auth.middleware.js';
 
 // Single role
 router.get('/admin-only', authenticateToken, requireRole('admin'), handler);
 
 // Multiple roles
-router.get('/user-or-admin', authenticateToken, requireRole(['user', 'admin']), handler);
+router.get(
+  '/user-or-admin',
+  authenticateToken,
+  requireRole(['user', 'admin']),
+  handler
+);
 ```
 
 ## Token Sources
 
 The middleware supports JWT tokens from two sources:
+
 1. **HTTP-only Cookie** (preferred): `token` cookie
 2. **Authorization Header**: `Bearer <token>`
 
 ## Current Route Protection
 
 ### Auth Routes (`/api/auth`)
+
 - `POST /sign-up` - Public (no authentication)
-- `POST /sign-in` - Public (no authentication)  
+- `POST /sign-in` - Public (no authentication)
 - `POST /sign-out` - Public (no authentication)
 
 ### User Routes (`/api/user`)
+
 - `GET /` - **Admin only** (requires admin role)
 - `GET /:id` - **Authenticated** (users can view their own profile, admins can view any)
 - `PUT /:id` - **Authenticated** (users can update their own info, admins can update anyone)
@@ -69,6 +83,7 @@ The middleware supports JWT tokens from two sources:
 ## Error Responses
 
 ### 401 Unauthorized
+
 ```json
 {
   "error": "Unauthorized",
@@ -77,14 +92,16 @@ The middleware supports JWT tokens from two sources:
 ```
 
 ### 403 Forbidden
+
 ```json
 {
-  "error": "Forbidden", 
+  "error": "Forbidden",
   "message": "Insufficient permissions"
 }
 ```
 
 ### 404 Not Found (if user doesn't exist)
+
 ```json
 {
   "error": "Unauthorized",
@@ -95,6 +112,7 @@ The middleware supports JWT tokens from two sources:
 ## Request Object Enhancement
 
 After successful authentication, `req.user` contains:
+
 ```javascript
 {
   id: 1,
@@ -118,10 +136,12 @@ After successful authentication, `req.user` contains:
 ## Example Usage Patterns
 
 ### Protected Route with Role Check
+
 ```javascript
-router.post('/admin-action', 
-  authenticateToken, 
-  requireRole('admin'), 
+router.post(
+  '/admin-action',
+  authenticateToken,
+  requireRole('admin'),
   (req, res) => {
     // Only admins can access this
   }
@@ -129,24 +149,26 @@ router.post('/admin-action',
 ```
 
 ### User-specific Resource Access
+
 ```javascript
 router.get('/profile/:id', authenticateToken, (req, res) => {
   const requestedUserId = parseInt(req.params.id);
-  
+
   // Users can only access their own profile, admins can access any
   if (req.user.id !== requestedUserId && req.user.role !== 'admin') {
     return res.status(403).json({ error: 'Forbidden' });
   }
-  
+
   // Continue with logic...
 });
 ```
 
 ### Optional Authentication
+
 ```javascript
 router.get('/posts', optionalAuth, (req, res) => {
   const isAuthenticated = !!req.user;
-  
+
   if (isAuthenticated) {
     // Show personalized content
   } else {

@@ -204,6 +204,7 @@ console.log('Database connection test...');
 ### From Development to Production
 
 1. Stop development containers:
+
    ```bash
    docker-compose -f docker-compose.dev.yml down
    ```
@@ -215,7 +216,7 @@ console.log('Database connection test...');
 
 ### Environment-Specific Database Behavior
 
-- **Development**: 
+- **Development**:
   - Uses Neon Local proxy
   - Creates ephemeral branches automatically
   - Database data is temporary and reset on container restart
