@@ -119,6 +119,35 @@
         border-radius: 8px;
         font-size: 0.85rem;
         cursor: pointer;
+        transition: background 0.2s ease, transform 0.15s ease;
+      }
+
+      nav .nav-signout:hover,
+      nav .nav-signout:focus {
+        background: rgba(56, 189, 248, 0.35);
+        transform: translateY(-1px);
+      }
+
+      nav .nav-user {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+      }
+
+      nav .nav-username {
+        color: var(--text);
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      nav .nav-signout {
+        border: none;
+        background: rgba(148, 163, 184, 0.15);
+        color: var(--text);
+        padding: 0.45rem 0.85rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        cursor: pointer;
         transition:
           background 0.2s ease,
           transform 0.15s ease;
@@ -322,6 +351,7 @@
           <span>DevOps Compass</span>
         </div>
         <ul>
+          <li><a href="#about">About</a></li>
           <li><a href="#spotlight">Spotlight</a></li>
           <li><a href="#tooling">Tooling</a></li>
           <li><a href="#culture">Culture</a></li>
@@ -334,19 +364,72 @@
     </header>
     <main>
       <section class="hero">
-        <h1>Charting confident paths to resilient delivery.</h1>
+        <h1>Hey, I'm Lior Benjman — Platform & DevOps Engineer.</h1>
         <p>
-          Practical roadmaps, field-tested patterns, and cultural insights for
-          platform teams and DevOps practitioners building high-trust delivery
-          pipelines.
+          I help teams ship with confidence by building reliable delivery
+          platforms, automating infrastructure, and nurturing observability-led
+          feedback loops. This blog documents the practices and experiments that
+          influence my work.
         </p>
         <div class="hero-actions">
           <a class="button button-primary" href="/sign-up"
             >Join the community</a
           >
-          <a class="button button-secondary" href="#spotlight"
-            >Explore latest posts</a
-          >
+          <a class="button button-secondary" href="#about">Read my story</a>
+        </div>
+      </section>
+
+      <section id="about">
+        <h2>About me</h2>
+        <div class="grid">
+          <article class="card" style="grid-column: span 2;">
+            <h3>Why DevOps?</h3>
+            <p>
+              My journey into DevOps began when I realised that shipping features
+              quickly means very little if production isn’t predictable. I’m
+              fascinated by the intersection of culture and tooling—where
+              observability, automation, and feedback loops come together to help
+              teams move faster <em>and</em> safer.
+            </p>
+            <p>
+              Over the years I’ve built CI/CD platforms, container orchestration
+              workflows, and incident practices that let product squads focus on
+              customer value. I love translating “it works on my machine” into
+              resilient systems and calm on-call rotations.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Current focus</h3>
+            <p>
+              • Designing progressive delivery pipelines with GitOps guardrails.<br />
+              • Rolling out shared observability standards highlighting customer impact.<br />
+              • Coaching teams on platform ergonomics and psychological safety.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Let's connect</h3>
+            <p>
+              I’m always happy to compare notes on infra-as-code, platform roadmaps,
+              or the best way to run incident reviews.
+            </p>
+            <p>
+              <a
+                class="inline"
+                href="https://www.linkedin.com/in/lior-benjman/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >LinkedIn</a
+              >
+              ·
+              <a
+                class="inline"
+                href="https://github.com/lior-benjman"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub</a
+              >
+            </p>
+          </article>
         </div>
       </section>
 
