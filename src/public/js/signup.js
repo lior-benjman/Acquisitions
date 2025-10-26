@@ -19,8 +19,14 @@
       email: formData.get('email')?.trim(),
       password: formData.get('password'),
     };
+    const confirmPassword = formData.get('confirmPassword');
 
-    if (!payload.name || !payload.email || !payload.password) {
+    if (
+      !payload.name ||
+      !payload.email ||
+      !payload.password ||
+      !confirmPassword
+    ) {
       feedback.textContent = 'All fields are required.';
       feedback.style.color = 'var(--error)';
       return;
@@ -28,6 +34,12 @@
 
     if (payload.password.length < 8) {
       feedback.textContent = 'Password should be at least 8 characters long.';
+      feedback.style.color = 'var(--error)';
+      return;
+    }
+
+    if (payload.password !== confirmPassword) {
+      feedback.textContent = 'Passwords need to match.';
       feedback.style.color = 'var(--error)';
       return;
     }
