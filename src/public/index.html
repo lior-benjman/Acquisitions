@@ -1,463 +1,501 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DevOps Compass | Modern Operations Blog</title>
     <style>
-        :root {
-            color-scheme: light dark;
-            --bg: #0c1524;
-            --surface: rgba(17, 30, 53, 0.92);
-            --surface-alt: rgba(20, 36, 62, 0.8);
-            --accent: #2dd4bf;
-            --accent-dark: #14b8a6;
-            --muted: #94a3b8;
-            --text: #f8fafc;
-            --text-invert: #0f172a;
-            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-        }
+      :root {
+        color-scheme: light dark;
+        --bg: #0c1524;
+        --surface: rgba(17, 30, 53, 0.92);
+        --surface-alt: rgba(20, 36, 62, 0.8);
+        --accent: #2dd4bf;
+        --accent-dark: #14b8a6;
+        --muted: #94a3b8;
+        --text: #f8fafc;
+        --text-invert: #0f172a;
+        font-family:
+          'Segoe UI',
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+      }
 
-        * {
-            box-sizing: border-box;
-        }
+      * {
+        box-sizing: border-box;
+      }
 
-        body {
-            margin: 0;
-            background: radial-gradient(circle at top, rgba(45, 212, 191, 0.08), transparent 55%), #020617;
-            color: var(--text);
-            line-height: 1.6;
-        }
+      body {
+        margin: 0;
+        background:
+          radial-gradient(
+            circle at top,
+            rgba(45, 212, 191, 0.08),
+            transparent 55%
+          ),
+          #020617;
+        color: var(--text);
+        line-height: 1.6;
+      }
 
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(14px);
-            background: rgba(2, 6, 23, 0.85);
-            border-bottom: 1px solid rgba(45, 212, 191, 0.15);
-        }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        backdrop-filter: blur(14px);
+        background: rgba(2, 6, 23, 0.85);
+        border-bottom: 1px solid rgba(45, 212, 191, 0.15);
+      }
 
-        nav {
-            max-width: 960px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 1.5rem;
-        }
+      nav {
+        max-width: 960px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.5rem;
+      }
 
-        nav .brand {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            letter-spacing: 0.04em;
-        }
+      nav .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+      }
 
-        nav .brand span:first-child {
-            display: inline-flex;
-            width: 32px;
-            height: 32px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--accent), transparent 65%);
-            align-items: center;
-            justify-content: center;
-            color: var(--text-invert);
-            font-weight: 700;
+      nav .brand span:first-child {
+        display: inline-flex;
+        width: 32px;
+        height: 32px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--accent), transparent 65%);
+        align-items: center;
+        justify-content: center;
+        color: var(--text-invert);
+        font-weight: 700;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        gap: 1.25rem;
+      }
+
+      nav a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: color 0.2s ease;
+      }
+
+      nav a:hover,
+      nav a:focus {
+        color: var(--accent);
+      }
+
+      nav .nav-user {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+      }
+
+      nav .nav-username {
+        color: var(--text);
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      nav .nav-signout {
+        border: none;
+        background: rgba(148, 163, 184, 0.15);
+        color: var(--text);
+        padding: 0.45rem 0.85rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition:
+          background 0.2s ease,
+          transform 0.15s ease;
+      }
+
+      nav .nav-signout:hover,
+      nav .nav-signout:focus {
+        background: rgba(56, 189, 248, 0.35);
+        transform: translateY(-1px);
+      }
+
+      main {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 2.5rem 1.5rem 4rem;
+      }
+
+      .hero {
+        display: grid;
+        gap: 1.5rem;
+        padding: 3rem 2rem;
+        background: var(--surface);
+        border-radius: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        box-shadow: 0 40px 120px rgba(15, 23, 42, 0.45);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at top right,
+          rgba(45, 212, 191, 0.12),
+          transparent 55%
+        );
+        pointer-events: none;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.2rem, 3vw + 1rem, 3.4rem);
+        margin: 0;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+      }
+
+      .hero p {
+        margin: 0;
+        font-size: 1.05rem;
+        color: #e2e8f0;
+        max-width: 48ch;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .button {
+        border: none;
+        border-radius: 12px;
+        padding: 0.9rem 1.4rem;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.15s ease;
+      }
+
+      .button-primary {
+        background: var(--accent);
+        color: var(--text-invert);
+        box-shadow: 0 20px 40px rgba(45, 212, 191, 0.35);
+      }
+
+      .button-primary:hover,
+      .button-primary:focus {
+        transform: translateY(-1px);
+        background: var(--accent-dark);
+      }
+
+      .button-secondary {
+        background: rgba(148, 163, 184, 0.12);
+        color: var(--text);
+        border: 1px solid rgba(148, 163, 184, 0.25);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .card {
+        background: var(--surface-alt);
+        padding: 1.5rem;
+        border-radius: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.15);
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        min-height: 220px;
+        box-shadow: 0 16px 45px rgba(8, 11, 24, 0.35);
+      }
+
+      .card h3 {
+        margin: 0;
+        font-size: 1.2rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .meta {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        color: rgba(226, 232, 240, 0.8);
+        margin-top: auto;
+      }
+
+      section {
+        margin-top: 3.5rem;
+      }
+
+      section h2 {
+        font-size: 1.9rem;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.03em;
+      }
+
+      .newsletter {
+        margin-top: 2rem;
+        background: rgba(15, 23, 42, 0.65);
+        border-radius: 18px;
+        border: 1px solid rgba(45, 212, 191, 0.18);
+        padding: 1.5rem;
+        display: grid;
+        gap: 1rem;
+      }
+
+      .newsletter form {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      input[type='email'] {
+        flex: 1 1 220px;
+        padding: 0.85rem 1rem;
+        border-radius: 10px;
+        border: 1px solid rgba(148, 163, 184, 0.45);
+        background: rgba(15, 23, 42, 0.85);
+        color: var(--text);
+      }
+
+      footer {
+        border-top: 1px solid rgba(148, 163, 184, 0.15);
+        margin-top: 4rem;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        color: rgba(148, 163, 184, 0.7);
+      }
+
+      a.inline {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      a.inline:hover,
+      a.inline:focus {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 640px) {
+        .hero {
+          padding: 2.4rem 1.5rem;
         }
 
         nav ul {
-            display: flex;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            gap: 1.25rem;
+          display: none;
         }
-
-        nav a {
-            color: var(--muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.2s ease;
-        }
-
-        nav a:hover,
-        nav a:focus {
-            color: var(--accent);
-        }
-
-        nav .nav-user {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.65rem;
-        }
-
-        nav .nav-username {
-            color: var(--text);
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        nav .nav-signout {
-            border: none;
-            background: rgba(148, 163, 184, 0.15);
-            color: var(--text);
-            padding: 0.45rem 0.85rem;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: background 0.2s ease, transform 0.15s ease;
-        }
-
-        nav .nav-signout:hover,
-        nav .nav-signout:focus {
-            background: rgba(56, 189, 248, 0.35);
-            transform: translateY(-1px);
-        }
-
-        main {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 2.5rem 1.5rem 4rem;
-        }
-
-        .hero {
-            display: grid;
-            gap: 1.5rem;
-            padding: 3rem 2rem;
-            background: var(--surface);
-            border-radius: 20px;
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            box-shadow: 0 40px 120px rgba(15, 23, 42, 0.45);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at top right, rgba(45, 212, 191, 0.12), transparent 55%);
-            pointer-events: none;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.2rem, 3vw + 1rem, 3.4rem);
-            margin: 0;
-            font-weight: 700;
-            letter-spacing: -0.04em;
-        }
-
-        .hero p {
-            margin: 0;
-            font-size: 1.05rem;
-            color: #e2e8f0;
-            max-width: 48ch;
-        }
-
-        .hero-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .button {
-            border: none;
-            border-radius: 12px;
-            padding: 0.9rem 1.4rem;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 0.95rem;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
-        }
-
-        .button-primary {
-            background: var(--accent);
-            color: var(--text-invert);
-            box-shadow: 0 20px 40px rgba(45, 212, 191, 0.35);
-        }
-
-        .button-primary:hover,
-        .button-primary:focus {
-            transform: translateY(-1px);
-            background: var(--accent-dark);
-        }
-
-        .button-secondary {
-            background: rgba(148, 163, 184, 0.12);
-            color: var(--text);
-            border: 1px solid rgba(148, 163, 184, 0.25);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .card {
-            background: var(--surface-alt);
-            padding: 1.5rem;
-            border-radius: 18px;
-            border: 1px solid rgba(148, 163, 184, 0.15);
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            min-height: 220px;
-            box-shadow: 0 16px 45px rgba(8, 11, 24, 0.35);
-        }
-
-        .card h3 {
-            margin: 0;
-            font-size: 1.2rem;
-        }
-
-        .card p {
-            margin: 0;
-            color: var(--muted);
-            font-size: 0.95rem;
-        }
-
-        .meta {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-            color: rgba(226, 232, 240, 0.8);
-            margin-top: auto;
-        }
-
-        section {
-            margin-top: 3.5rem;
-        }
-
-        section h2 {
-            font-size: 1.9rem;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.03em;
-        }
-
-        .newsletter {
-            margin-top: 2rem;
-            background: rgba(15, 23, 42, 0.65);
-            border-radius: 18px;
-            border: 1px solid rgba(45, 212, 191, 0.18);
-            padding: 1.5rem;
-            display: grid;
-            gap: 1rem;
-        }
-
-        .newsletter form {
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        input[type="email"] {
-            flex: 1 1 220px;
-            padding: 0.85rem 1rem;
-            border-radius: 10px;
-            border: 1px solid rgba(148, 163, 184, 0.45);
-            background: rgba(15, 23, 42, 0.85);
-            color: var(--text);
-        }
-
-        footer {
-            border-top: 1px solid rgba(148, 163, 184, 0.15);
-            margin-top: 4rem;
-            padding: 2rem 1.5rem;
-            text-align: center;
-            color: rgba(148, 163, 184, 0.7);
-        }
-
-        a.inline {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        a.inline:hover,
-        a.inline:focus {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 640px) {
-            .hero {
-                padding: 2.4rem 1.5rem;
-            }
-
-            nav ul {
-                display: none;
-            }
-        }
+      }
     </style>
-</head>
-<body>
-<header>
-    <nav>
+  </head>
+  <body>
+    <header>
+      <nav>
         <div class="brand">
-            <span>Δ</span>
-            <span>DevOps Compass</span>
+          <span>Δ</span>
+          <span>DevOps Compass</span>
         </div>
         <ul>
-            <li><a href="#spotlight">Spotlight</a></li>
-            <li><a href="#tooling">Tooling</a></li>
-            <li><a href="#culture">Culture</a></li>
-            <li><a href="#newsletter">Newsletter</a></li>
-            <li class="nav-user" data-nav-user>
-                <a id="nav-auth-link" href="/sign-in">Sign In</a>
-            </li>
+          <li><a href="#spotlight">Spotlight</a></li>
+          <li><a href="#tooling">Tooling</a></li>
+          <li><a href="#culture">Culture</a></li>
+          <li><a href="#newsletter">Newsletter</a></li>
+          <li class="nav-user" data-nav-user>
+            <a id="nav-auth-link" href="/sign-in">Sign In</a>
+          </li>
         </ul>
-    </nav>
-</header>
-<main>
-    <section class="hero">
+      </nav>
+    </header>
+    <main>
+      <section class="hero">
         <h1>Charting confident paths to resilient delivery.</h1>
         <p>
-            Practical roadmaps, field-tested patterns, and cultural insights for platform teams
-            and DevOps practitioners building high-trust delivery pipelines.
+          Practical roadmaps, field-tested patterns, and cultural insights for
+          platform teams and DevOps practitioners building high-trust delivery
+          pipelines.
         </p>
         <div class="hero-actions">
-            <a class="button button-primary" href="/sign-up">Join the community</a>
-            <a class="button button-secondary" href="#spotlight">Explore latest posts</a>
+          <a class="button button-primary" href="/sign-up"
+            >Join the community</a
+          >
+          <a class="button button-secondary" href="#spotlight"
+            >Explore latest posts</a
+          >
         </div>
-    </section>
+      </section>
 
-    <section id="spotlight">
+      <section id="spotlight">
         <h2>Spotlight Analyses</h2>
         <div class="grid">
-            <article class="card">
-                <h3>Blueprint: GitOps for regulated environments</h3>
-                <p>
-                    How a financial services SRE team moved to declarative delivery with progressive
-                    rollout gates and auditable change histories.
-                </p>
-                <div class="meta">
-                    <span>15 minute read</span>
-                    <span>•</span>
-                    <span>Pipeline Architecture</span>
-                </div>
-            </article>
-            <article class="card">
-                <h3>Incident drills that harden feedback loops</h3>
-                <p>
-                    A repeatable tabletop playbook that connects observability, alert routing,
-                    and post-incident analytics across distributed teams.
-                </p>
-                <div class="meta">
-                    <span>12 minute read</span>
-                    <span>•</span>
-                    <span>Resilience Engineering</span>
-                </div>
-            </article>
-            <article class="card">
-                <h3>Measuring platform value beyond velocity</h3>
-                <p>
-                    Data-informed metrics for platform teams that balance golden paths,
-                    self-service, and guardrails without slowing innovation.
-                </p>
-                <div class="meta">
-                    <span>9 minute read</span>
-                    <span>•</span>
-                    <span>Platform Strategy</span>
-                </div>
-            </article>
+          <article class="card">
+            <h3>Blueprint: GitOps for regulated environments</h3>
+            <p>
+              How a financial services SRE team moved to declarative delivery
+              with progressive rollout gates and auditable change histories.
+            </p>
+            <div class="meta">
+              <span>15 minute read</span>
+              <span>•</span>
+              <span>Pipeline Architecture</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Incident drills that harden feedback loops</h3>
+            <p>
+              A repeatable tabletop playbook that connects observability, alert
+              routing, and post-incident analytics across distributed teams.
+            </p>
+            <div class="meta">
+              <span>12 minute read</span>
+              <span>•</span>
+              <span>Resilience Engineering</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Measuring platform value beyond velocity</h3>
+            <p>
+              Data-informed metrics for platform teams that balance golden
+              paths, self-service, and guardrails without slowing innovation.
+            </p>
+            <div class="meta">
+              <span>9 minute read</span>
+              <span>•</span>
+              <span>Platform Strategy</span>
+            </div>
+          </article>
         </div>
-    </section>
+      </section>
 
-    <section id="tooling">
+      <section id="tooling">
         <h2>Tooling Breakdowns</h2>
         <div class="grid">
-            <article class="card">
-                <h3>Kubernetes cost controls that engineers love</h3>
-                <p>
-                    Practical cost guardrails with admission controllers, dynamic quotas,
-                    and reliability budgets that teams actually adopt.
-                </p>
-                <div class="meta">
-                    <span>Guide</span>
-                </div>
-            </article>
-            <article class="card">
-                <h3>Policy as code for Terraform without friction</h3>
-                <p>
-                    Ship reusable Cloud Native Application Bundles with OPA and scorecards
-                    that defend production without blocking day one.
-                </p>
-                <div class="meta">
-                    <span>Hands-on Lab</span>
-                </div>
-            </article>
-            <article class="card">
-                <h3>Observability workouts for platform squads</h3>
-                <p>
-                    Operator dashboards, SLO personas, and lightweight alert budgets
-                    to keep service golden signals actionable.
-                </p>
-                <div class="meta">
-                    <span>Playbook</span>
-                </div>
-            </article>
+          <article class="card">
+            <h3>Kubernetes cost controls that engineers love</h3>
+            <p>
+              Practical cost guardrails with admission controllers, dynamic
+              quotas, and reliability budgets that teams actually adopt.
+            </p>
+            <div class="meta">
+              <span>Guide</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Policy as code for Terraform without friction</h3>
+            <p>
+              Ship reusable Cloud Native Application Bundles with OPA and
+              scorecards that defend production without blocking day one.
+            </p>
+            <div class="meta">
+              <span>Hands-on Lab</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Observability workouts for platform squads</h3>
+            <p>
+              Operator dashboards, SLO personas, and lightweight alert budgets
+              to keep service golden signals actionable.
+            </p>
+            <div class="meta">
+              <span>Playbook</span>
+            </div>
+          </article>
         </div>
-    </section>
+      </section>
 
-    <section id="culture">
+      <section id="culture">
         <h2>Cultural Patterns</h2>
         <div class="grid">
-            <article class="card">
-                <h3>Scorecards that elevate psychological safety</h3>
-                <p>
-                    Building blameless operating reviews that nudge system-level thinking
-                    and celebration of steady, reliable delivery.
-                </p>
-                <div class="meta">
-                    <span>Conversation Starter</span>
-                </div>
-            </article>
-            <article class="card">
-                <h3>Empowering platform guilds</h3>
-                <p>
-                    Lightweight guild rituals that raise shared standards without the
-                    ceremony overhead of a steering committee.
-                </p>
-                <div class="meta">
-                    <span>Deep Dive</span>
-                </div>
-            </article>
-            <article class="card">
-                <h3>Career ladders for DevOps generalists</h3>
-                <p>
-                    Aligning growth paths, skill matrices, and mentoring structures so
-                    cross-functional engineers stick around.
-                </p>
-                <div class="meta">
-                    <span>Toolkit</span>
-                </div>
-            </article>
+          <article class="card">
+            <h3>Scorecards that elevate psychological safety</h3>
+            <p>
+              Building blameless operating reviews that nudge system-level
+              thinking and celebration of steady, reliable delivery.
+            </p>
+            <div class="meta">
+              <span>Conversation Starter</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Empowering platform guilds</h3>
+            <p>
+              Lightweight guild rituals that raise shared standards without the
+              ceremony overhead of a steering committee.
+            </p>
+            <div class="meta">
+              <span>Deep Dive</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Career ladders for DevOps generalists</h3>
+            <p>
+              Aligning growth paths, skill matrices, and mentoring structures so
+              cross-functional engineers stick around.
+            </p>
+            <div class="meta">
+              <span>Toolkit</span>
+            </div>
+          </article>
         </div>
-    </section>
+      </section>
 
-    <section id="newsletter" class="newsletter">
+      <section id="newsletter" class="newsletter">
         <div>
-            <h2>Stay ahead of the curve</h2>
-            <p>Every other week we share deployment patterns, incident studies, and platform culture notes.</p>
+          <h2>Stay ahead of the curve</h2>
+          <p>
+            Every other week we share deployment patterns, incident studies, and
+            platform culture notes.
+          </p>
         </div>
         <form id="newsletter-form">
-            <input type="email" name="email" placeholder="you@example.com" required autocomplete="email" />
-            <button class="button button-primary" type="submit">Reserve my seat</button>
+          <input
+            type="email"
+            name="email"
+            placeholder="you@example.com"
+            required
+            autocomplete="email"
+          />
+          <button class="button button-primary" type="submit">
+            Reserve my seat
+          </button>
         </form>
         <p id="newsletter-feedback" aria-live="polite"></p>
-        <p style="color: var(--muted); font-size: 0.85rem;">
-            Already part of the crew? <a class="inline" href="/sign-in">Sign in</a> to access member briefings.
+        <p style="color: var(--muted); font-size: 0.85rem">
+          Already part of the crew?
+          <a class="inline" href="/sign-in">Sign in</a> to access member
+          briefings.
         </p>
-    </section>
-</main>
-<footer>
-    © <span id="year"></span> DevOps Compass. Built for platform engineers, SREs, and change-makers.
-</footer>
-<script defer src="/js/home.js"></script>
-</body>
+      </section>
+    </main>
+    <footer>
+      © <span id="year"></span> DevOps Compass. Built for platform engineers,
+      SREs, and change-makers.
+    </footer>
+    <script defer src="/js/home.js"></script>
+  </body>
 </html>

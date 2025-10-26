@@ -1,9 +1,9 @@
 import express from 'express';
 import {
-    signup,
-    signIn,
-    signOut,
-    currentUser,
+  signup,
+  signIn,
+  signOut,
+  currentUser,
 } from '#controllers/auth.controller.js';
 import { authenticateToken } from '#middleware/auth.middleware.js';
 

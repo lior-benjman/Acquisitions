@@ -1,140 +1,177 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Account | DevOps Compass</title>
     <style>
-        :root {
-            color-scheme: light dark;
-            --bg: #040b16;
-            --surface: rgba(10, 19, 35, 0.92);
-            --surface-alt: rgba(14, 26, 44, 0.85);
-            --accent: #22d3ee;
-            --accent-dark: #0ea5e9;
-            --muted: #cbd5f5;
-            --error: #fb7185;
-            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-        }
+      :root {
+        color-scheme: light dark;
+        --bg: #040b16;
+        --surface: rgba(10, 19, 35, 0.92);
+        --surface-alt: rgba(14, 26, 44, 0.85);
+        --accent: #22d3ee;
+        --accent-dark: #0ea5e9;
+        --muted: #cbd5f5;
+        --error: #fb7185;
+        font-family:
+          'Segoe UI',
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+      }
 
-        * {
-            box-sizing: border-box;
-        }
+      * {
+        box-sizing: border-box;
+      }
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: grid;
-            place-items: center;
-            padding: 1.5rem;
-            background: radial-gradient(circle at top right, rgba(34, 211, 238, 0.16), transparent 60%), var(--bg);
-            color: #e2e8f0;
-        }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 1.5rem;
+        background:
+          radial-gradient(
+            circle at top right,
+            rgba(34, 211, 238, 0.16),
+            transparent 60%
+          ),
+          var(--bg);
+        color: #e2e8f0;
+      }
 
-        main {
-            width: min(460px, 100%);
-            background: var(--surface);
-            border-radius: 20px;
-            padding: clamp(2rem, 2vw + 1.5rem, 3rem);
-            border: 1px solid rgba(34, 211, 238, 0.25);
-            box-shadow: 0 40px 120px rgba(3, 6, 23, 0.5);
-        }
+      main {
+        width: min(460px, 100%);
+        background: var(--surface);
+        border-radius: 20px;
+        padding: clamp(2rem, 2vw + 1.5rem, 3rem);
+        border: 1px solid rgba(34, 211, 238, 0.25);
+        box-shadow: 0 40px 120px rgba(3, 6, 23, 0.5);
+      }
 
-        h1 {
-            margin: 0 0 0.4rem;
-            font-size: 2rem;
-        }
+      h1 {
+        margin: 0 0 0.4rem;
+        font-size: 2rem;
+      }
 
-        p {
-            margin: 0 0 1.6rem;
-            color: rgba(226, 232, 240, 0.75);
-        }
+      p {
+        margin: 0 0 1.6rem;
+        color: rgba(226, 232, 240, 0.75);
+      }
 
-        label {
-            display: block;
-            margin-bottom: 0.35rem;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
+      label {
+        display: block;
+        margin-bottom: 0.35rem;
+        font-size: 0.95rem;
+        font-weight: 500;
+      }
 
-        input {
-            width: 100%;
-            padding: 0.85rem 1rem;
-            border-radius: 12px;
-            border: 1px solid rgba(148, 163, 184, 0.35);
-            background: rgba(15, 23, 42, 0.72);
-            color: inherit;
-            margin-bottom: 1rem;
-        }
+      input {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        border-radius: 12px;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        background: rgba(15, 23, 42, 0.72);
+        color: inherit;
+        margin-bottom: 1rem;
+      }
 
-        input:focus {
-            outline: 2px solid rgba(14, 165, 233, 0.45);
-        }
+      input:focus {
+        outline: 2px solid rgba(14, 165, 233, 0.45);
+      }
 
-        button {
-            width: 100%;
-            border: none;
-            padding: 0.95rem 1.2rem;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.96rem;
-            cursor: pointer;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            color: #0b1120;
-            box-shadow: 0 24px 64px rgba(14, 165, 233, 0.3);
-        }
+      button {
+        width: 100%;
+        border: none;
+        padding: 0.95rem 1.2rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.96rem;
+        cursor: pointer;
+        background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+        color: #0b1120;
+        box-shadow: 0 24px 64px rgba(14, 165, 233, 0.3);
+      }
 
-        button:hover,
-        button:focus {
-            transform: translateY(-1px);
-        }
+      button:hover,
+      button:focus {
+        transform: translateY(-1px);
+      }
 
-        #feedback {
-            margin-top: 1rem;
-            min-height: 1.3rem;
-            font-size: 0.95rem;
-        }
+      #feedback {
+        margin-top: 1rem;
+        min-height: 1.3rem;
+        font-size: 0.95rem;
+      }
 
-        .links {
-            margin-top: 1.75rem;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-        }
+      .links {
+        margin-top: 1.75rem;
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+      }
 
-        a {
-            color: var(--accent);
-            text-decoration: none;
-        }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
 
-        a:hover,
-        a:focus {
-            text-decoration: underline;
-        }
+      a:hover,
+      a:focus {
+        text-decoration: underline;
+      }
     </style>
-</head>
-<body>
-<main>
-    <h1>Create your Compass account</h1>
-    <p>Join a community of platform engineers sharing infrastructure workflows, cultural patterns, and delivery benchmarks.</p>
-    <form id="sign-up-form" autocomplete="on" novalidate>
+  </head>
+  <body>
+    <main>
+      <h1>Create your Compass account</h1>
+      <p>
+        Join a community of platform engineers sharing infrastructure workflows,
+        cultural patterns, and delivery benchmarks.
+      </p>
+      <form id="sign-up-form" autocomplete="on" novalidate>
         <label for="name">Full name</label>
-        <input id="name" name="name" type="text" placeholder="Pat Engineer" autocomplete="name" required minlength="2" />
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Pat Engineer"
+          autocomplete="name"
+          required
+          minlength="2"
+        />
 
         <label for="email">Work email</label>
-        <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          required
+        />
 
         <label for="password">Create password</label>
-        <input id="password" name="password" type="password" placeholder="••••••••" autocomplete="new-password" required minlength="8" />
+        <input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="••••••••"
+          autocomplete="new-password"
+          required
+          minlength="8"
+        />
 
         <button type="submit">Create account</button>
-    </form>
-    <p id="feedback" aria-live="polite"></p>
-    <div class="links">
+      </form>
+      <p id="feedback" aria-live="polite"></p>
+      <div class="links">
         <a href="/">Return home</a>
         <a href="/sign-in">Already a member?</a>
-    </div>
-</main>
-<script defer src="/js/signup.js"></script>
-</body>
+      </div>
+    </main>
+    <script defer src="/js/signup.js"></script>
+  </body>
 </html>

@@ -23,45 +23,43 @@ app.use(cookieParser());
 app.use(express.static(publicDir));
 
 app.use(
-    morgan('combined', {
-        stream: { write: message => logger.info(message.trim()) },
-    })
+  morgan('combined', {
+    stream: { write: message => logger.info(message.trim()) },
+  })
 );
 
 app.get('/', (req, res) => {
-    logger.info('Serving DevOps blog homepage');
-    res.sendFile(path.join(publicDir, 'index.html'));
+  logger.info('Serving DevOps blog homepage');
+  res.sendFile(path.join(publicDir, 'index.html'));
 });
 
 app.get('/sign-in', (req, res) => {
-    res.sendFile(path.join(publicDir, 'signin.html'));
+  res.sendFile(path.join(publicDir, 'signin.html'));
 });
 
 app.get('/sign-up', (req, res) => {
-    res.sendFile(path.join(publicDir, 'signup.html'));
+  res.sendFile(path.join(publicDir, 'signup.html'));
 });
 
 app.use('/api', securityMiddleware);
 
 app.get('/health', (req, res) => {
-    res
-        .status(200)
-        .json({
-            status: 'OK',
-            timestamp: new Date().toISOString(),
-            uptime: process.uptime(),
-        });
+  res.status(200).json({
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+  });
 });
 
 app.get('/api', (req, res) => {
-    res.status(200).json({ message: 'Acquisitions API is running!' });
+  res.status(200).json({ message: 'Acquisitions API is running!' });
 });
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
 
 app.use((req, res) => {
-    res.status(404).json({ error: 'Route not found' });
+  res.status(404).json({ error: 'Route not found' });
 });
 
 export default app;
