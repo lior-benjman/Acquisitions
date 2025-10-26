@@ -17,6 +17,7 @@
     link.id = 'nav-auth-link';
     link.href = '/sign-in';
     link.textContent = 'Sign In';
+    link.className = 'nav-link';
     navContainer.appendChild(link);
   };
 

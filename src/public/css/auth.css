@@ -1,0 +1,84 @@
+body.page--auth {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  background: radial-gradient(
+      circle at top,
+      rgba(56, 189, 248, 0.18),
+      transparent 60%
+    ),
+    var(--bg-alt);
+}
+
+body.page--signup {
+  background: radial-gradient(
+      circle at top right,
+      rgba(34, 211, 238, 0.16),
+      transparent 60%
+    ),
+    var(--bg-alt);
+}
+
+.auth-card {
+  width: min(460px, 100%);
+  background: var(--surface);
+  border-radius: 20px;
+  padding: clamp(2rem, 2vw + 1.5rem, 3rem);
+  border: 1px solid var(--border);
+  box-shadow: 0 40px 120px rgba(3, 6, 23, 0.5);
+}
+
+.auth-card h1 {
+  margin: 0 0 0.4rem;
+  font-size: 2rem;
+}
+
+.auth-card p {
+  margin: 0 0 1.6rem;
+  color: var(--text-muted);
+}
+
+.auth-form label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.72);
+  color: inherit;
+  margin-bottom: 1rem;
+}
+
+.auth-form input:focus {
+  outline: 2px solid rgba(56, 189, 248, 0.45);
+}
+
+body.page--signup .auth-form input:focus {
+  outline: 2px solid rgba(34, 211, 238, 0.45);
+}
+
+.auth-submit {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.auth-feedback {
+  margin-top: 1rem;
+  min-height: 1.3rem;
+  font-size: 0.95rem;
+}
+
+.auth-links {
+  margin-top: 1.75rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
