@@ -1112,7 +1112,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:src\validations\auth.validations.js
+SF:src\validations\auth.validation.js
 FNF:0
 FNH:0
 DA:1,1

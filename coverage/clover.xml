@@ -976,7 +976,7 @@
     </package>
     <package name="src.validations">
       <metrics statements="38" coveredstatements="35" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-      <file name="auth.validations.js" path="C:\Users\liort\Documents\GitHub\aquisitions\src\validations\auth.validations.js">
+      <file name="auth.validation.js" path="C:\Users\liort\Documents\GitHub\aquisitions\src\validations\auth.validation.js">
         <metrics statements="13" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
