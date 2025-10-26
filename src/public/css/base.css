@@ -13,9 +13,13 @@
   --text-muted: rgba(226, 232, 240, 0.8);
   --danger: #fb7185;
   --border: rgba(148, 163, 184, 0.2);
-  --font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont,
-    sans-serif;
-  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont,
+  --font-family:
+    'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
     sans-serif;
 }
 
@@ -136,7 +140,9 @@ button {
   border-radius: 8px;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
 }
 
 .nav-signout:hover,
@@ -152,7 +158,9 @@ button {
   font-weight: 600;
   cursor: pointer;
   font-size: 0.95rem;
-  transition: transform 0.15s ease, box-shadow 0.15s ease,
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
     background 0.2s ease;
 }
 

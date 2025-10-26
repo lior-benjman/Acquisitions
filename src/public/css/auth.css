@@ -4,16 +4,14 @@ body.page--auth {
   justify-content: center;
   align-items: center;
   padding: 1.5rem;
-  background: radial-gradient(
-      circle at top,
-      rgba(56, 189, 248, 0.18),
-      transparent 60%
-    ),
+  background:
+    radial-gradient(circle at top, rgba(56, 189, 248, 0.18), transparent 60%),
     var(--bg-alt);
 }
 
 body.page--signup {
-  background: radial-gradient(
+  background:
+    radial-gradient(
       circle at top right,
       rgba(34, 211, 238, 0.16),
       transparent 60%

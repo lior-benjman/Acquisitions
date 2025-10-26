@@ -10,7 +10,11 @@
   <body class="page page--home">
     <audio id="frog-audio" src="/Media/frog.mp3" preload="auto"></audio>
     <audio id="alien-audio" src="/Media/alien.mp3" preload="auto"></audio>
-    <div class="experience-toolbar" role="group" aria-label="Environment themes">
+    <div
+      class="experience-toolbar"
+      role="group"
+      aria-label="Environment themes"
+    >
       <button
         id="froggy-toggle"
         class="experience-toggle"
@@ -61,7 +65,9 @@
           DevOps, automation, and cloud reliability.
         </p>
         <div class="hero-actions">
-          <a class="button button-primary" href="/sign-up">Join the community</a>
+          <a class="button button-primary" href="/sign-up"
+            >Join the community</a
+          >
           <a class="button button-secondary" href="#about">Read my story</a>
         </div>
       </section>
@@ -76,8 +82,8 @@
               Thursdays. At some point, I realized I’d rather automate the chaos
               than chase it. That’s where DevOps hooked me. Now I build
               pipelines, spin up containers, and write scripts that make systems
-              (and people) behave. For me, DevOps is just turning “it works on my
-              machine” into “it works everywhere — even on Thursdays.”
+              (and people) behave. For me, DevOps is just turning “it works on
+              my machine” into “it works everywhere — even on Thursdays.”
             </p>
             <h3>Who am I?</h3>
             <p>
@@ -85,8 +91,8 @@
               — Magnus the Rottweiler and Bonnie the Labrador —
               <strong>they keep morale high 24/7 (CI/CD of joy).</strong>
               During my military service I juggled three IT roles at once —
-              <strong>so yeah, I don’t sit still.</strong> I’ve been working full
-              time while studying Computer Science and holding a 91 GPA —
+              <strong>so yeah, I don’t sit still.</strong> I’ve been working
+              full time while studying Computer Science and holding a 91 GPA —
               <strong>because learning never stops.</strong>
             </p>
           </article>
@@ -135,39 +141,41 @@
           <article class="card card--wide">
             <h3>A DevOps playground from day one</h3>
             <p>
-              This blog started as a hands-on DevOps build. The entire backend is
-              containerized, wired to a managed Postgres instance, and ships
-              through automated pipelines. Every change runs linting and tests in
-              CI before heading to production, then lands in a Docker image that’s
-              deployed to my hosting provider.
+              This blog started as a hands-on DevOps build. The entire backend
+              is containerized, wired to a managed Postgres instance, and ships
+              through automated pipelines. Every change runs linting and tests
+              in CI before heading to production, then lands in a Docker image
+              that’s deployed to my hosting provider.
             </p>
             <p>
               The static experience you’re reading is served by the same Express
               app that powers the API, so the site stays lean while still taking
               advantage of the existing auth, logging, and monitoring stack.
-              Drizzle migrations keep the database schema in sync, and Arcjet adds
-              a security layer on top of rate limiting and bot detection.
+              Drizzle migrations keep the database schema in sync, and Arcjet
+              adds a security layer on top of rate limiting and bot detection.
             </p>
           </article>
           <article class="card">
             <h3>Ops highlights</h3>
             <p>
-              • Docker-first architecture with dedicated dev/prod compose files.<br />
+              • Docker-first architecture with dedicated dev/prod compose
+              files.<br />
               • Drizzle ORM migrations and Neon Postgres for cloud-native
               storage.<br />
               • CI/CD via GitHub Actions, deploying directly from the main
               branch.<br />
               • Cloudflare front door with automated TLS and caching.<br />
-              • Structured logging and health checks for container orchestration.
+              • Structured logging and health checks for container
+              orchestration.
             </p>
           </article>
           <article class="card">
             <h3>Multi-environment delivery</h3>
             <p>
               Development runs locally (or via dev containers) with hot reloads,
-              while production is continuously deployed. The graphic below captures
-              the dual-server deployment path: one track for local validation, and
-              another for the production-release pipeline.
+              while production is continuously deployed. The graphic below
+              captures the dual-server deployment path: one track for local
+              validation, and another for the production-release pipeline.
             </p>
             <img
               class="card__image"
@@ -179,9 +187,9 @@
             <h3>GitHub Actions guard the releases</h3>
             <p>
               Every push to production kicks off an automated GitHub Actions
-              workflow that lints, tests, builds the Docker image, and promotes it
-              to the live environment. Deployments stay consistent, auditable, and
-              fast without me touching the servers directly.
+              workflow that lints, tests, builds the Docker image, and promotes
+              it to the live environment. Deployments stay consistent,
+              auditable, and fast without me touching the servers directly.
             </p>
             <a
               class="card__image-link"
@@ -205,8 +213,8 @@
           <article class="card">
             <h3>Blueprint: GitOps for regulated environments</h3>
             <p>
-              How a financial services SRE team moved to declarative delivery with
-              progressive rollout gates and auditable change histories.
+              How a financial services SRE team moved to declarative delivery
+              with progressive rollout gates and auditable change histories.
             </p>
             <div class="meta">
               <span>15 minute read</span>
@@ -229,8 +237,8 @@
           <article class="card">
             <h3>Measuring platform value beyond velocity</h3>
             <p>
-              Data-informed metrics for platform teams that balance golden paths,
-              self-service, and guardrails without slowing innovation.
+              Data-informed metrics for platform teams that balance golden
+              paths, self-service, and guardrails without slowing innovation.
             </p>
             <div class="meta">
               <span>9 minute read</span>
@@ -247,8 +255,8 @@
           <article class="card">
             <h3>Kubernetes cost controls that engineers love</h3>
             <p>
-              Practical cost guardrails with admission controllers, dynamic quotas,
-              and reliability budgets that teams actually adopt.
+              Practical cost guardrails with admission controllers, dynamic
+              quotas, and reliability budgets that teams actually adopt.
             </p>
             <div class="meta"><span>Guide</span></div>
           </article>
@@ -263,8 +271,8 @@
           <article class="card">
             <h3>Observability workouts for platform squads</h3>
             <p>
-              Operator dashboards, SLO personas, and lightweight alert budgets to
-              keep service golden signals actionable.
+              Operator dashboards, SLO personas, and lightweight alert budgets
+              to keep service golden signals actionable.
             </p>
             <div class="meta"><span>Playbook</span></div>
           </article>
@@ -277,8 +285,8 @@
           <article class="card">
             <h3>Scorecards that elevate psychological safety</h3>
             <p>
-              Building blameless operating reviews that nudge system-level thinking
-              and celebration of steady, reliable delivery.
+              Building blameless operating reviews that nudge system-level
+              thinking and celebration of steady, reliable delivery.
             </p>
             <div class="meta"><span>Conversation Starter</span></div>
           </article>
@@ -306,8 +314,8 @@
           <div>
             <h2>Stay ahead of the curve</h2>
             <p>
-              Every other week I share deployment patterns, incident studies, and
-              platform culture notes.
+              Every other week I share deployment patterns, incident studies,
+              and platform culture notes.
             </p>
           </div>
           <form id="newsletter-form">
