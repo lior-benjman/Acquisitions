@@ -113,12 +113,10 @@ export const currentUser = async (req, res, next) => {
     const userId = req.user?.id;
 
     if (!userId) {
-      return res
-        .status(401)
-        .json({
-          error: 'Authentication required',
-          message: 'No user found in session',
-        });
+      return res.status(401).json({
+        error: 'Authentication required',
+        message: 'No user found in session',
+      });
     }
 
     const user = await getUserById(userId);
