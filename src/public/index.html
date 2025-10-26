@@ -455,42 +455,51 @@
           <article class="card" style="grid-column: span 2">
             <h3>A DevOps playground from day one</h3>
             <p>
-              This blog started as a hands-on DevOps build. The entire backend is
-              containerized, wired to a managed Postgres instance, and ships through
-              automated pipelines. Every change runs linting and tests in CI before
-              heading to production, then lands in a Docker image that’s deployed to
-              my hosting provider.
+              This blog started as a hands-on DevOps build. The entire backend
+              is containerized, wired to a managed Postgres instance, and ships
+              through automated pipelines. Every change runs linting and tests
+              in CI before heading to production, then lands in a Docker image
+              that’s deployed to my hosting provider.
             </p>
             <p>
-              The static experience you’re reading is served by the same Express app
-              that powers the API, so the site stays lean while still taking
+              The static experience you’re reading is served by the same Express
+              app that powers the API, so the site stays lean while still taking
               advantage of the existing auth, logging, and monitoring stack.
-              Drizzle migrations keep the database schema in sync, and Arcjet adds a
-              security layer on top of rate limiting and bot detection.
+              Drizzle migrations keep the database schema in sync, and Arcjet
+              adds a security layer on top of rate limiting and bot detection.
             </p>
           </article>
           <article class="card">
             <h3>Ops highlights</h3>
             <p>
-              • Docker-first architecture with dedicated dev/prod compose files.<br />
-              • Drizzle ORM migrations and Neon Postgres for cloud-native storage.<br />
-              • CI/CD via GitHub Actions, deploying directly from the main branch.<br />
+              • Docker-first architecture with dedicated dev/prod compose
+              files.<br />
+              • Drizzle ORM migrations and Neon Postgres for cloud-native
+              storage.<br />
+              • CI/CD via GitHub Actions, deploying directly from the main
+              branch.<br />
               • Cloudflare front door with automated TLS and caching.<br />
-              • Structured logging and health checks for container orchestration.
+              • Structured logging and health checks for container
+              orchestration.
             </p>
           </article>
           <article class="card">
             <h3>Multi-environment delivery</h3>
             <p>
               Development runs locally (or via dev containers) with hot reloads,
-              while production is continuously deployed. The graphic below captures
-              the dual-server deployment path: one track for local validation, and
-              another for the production-release pipeline.
+              while production is continuously deployed. The graphic below
+              captures the dual-server deployment path: one track for local
+              validation, and another for the production-release pipeline.
             </p>
             <img
               src="/img/Image-kubernetes.png"
               alt="Diagram showing the site deployed across multiple Kubernetes servers"
-              style="width: 100%; border-radius: 12px; border: 1px solid rgba(148, 163, 184, 0.25); background: rgba(15, 23, 42, 0.5);"
+              style="
+                width: 100%;
+                border-radius: 12px;
+                border: 1px solid rgba(148, 163, 184, 0.25);
+                background: rgba(15, 23, 42, 0.5);
+              "
             />
           </article>
         </div>
