@@ -8,6 +8,28 @@
     <link rel="stylesheet" href="/css/home.css" />
   </head>
   <body class="page page--home">
+    <audio id="frog-audio" src="/Media/frog.mp3" preload="auto"></audio>
+    <audio id="alien-audio" src="/Media/alien.mp3" preload="auto"></audio>
+    <div class="experience-toolbar" role="group" aria-label="Environment themes">
+      <button
+        id="froggy-toggle"
+        class="experience-toggle"
+        type="button"
+        aria-pressed="false"
+      >
+        <img src="/Media/Froggy.jfif" alt="Frog mascot" />
+        <span>View with Froggy-style</span>
+      </button>
+      <button
+        id="alien-toggle"
+        class="experience-toggle experience-toggle--alien"
+        type="button"
+        aria-pressed="false"
+      >
+        <img src="/Media/alien.jpg" alt="Alien mascot" />
+        <span>View with Alien-style</span>
+      </button>
+    </div>
     <header class="site-header">
       <nav class="site-nav">
         <div class="brand">
@@ -315,6 +337,7 @@
       SREs, and change-makers.
     </footer>
 
+    <div class="alien-field" aria-hidden="true"></div>
     <script defer src="/js/home.js"></script>
   </body>
 </html>
