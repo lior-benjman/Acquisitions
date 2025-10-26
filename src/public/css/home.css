@@ -7,10 +7,88 @@ body.page--home {
     #020617;
 }
 
+.page--home.froggy-mode {
+  background:
+      radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.22), transparent 45%),
+      radial-gradient(circle at 72% 18%, rgba(45, 212, 191, 0.24), transparent 55%),
+      radial-gradient(circle at 28% 82%, rgba(236, 72, 153, 0.2), transparent 50%),
+      radial-gradient(circle at 60% 68%, rgba(34, 211, 238, 0.18), transparent 60%),
+      radial-gradient(circle at 10% 60%, rgba(129, 140, 248, 0.16), transparent 50%),
+      linear-gradient(135deg, rgba(8, 47, 73, 0.65), rgba(6, 78, 59, 0.65)),
+      #01050f;
+  background-attachment: fixed;
+  transition: background 0.6s ease;
+}
+
+.page--home.alien-mode {
+  background:
+      radial-gradient(circle at 22% 18%, rgba(129, 140, 248, 0.28), transparent 45%),
+      radial-gradient(circle at 70% 20%, rgba(99, 102, 241, 0.26), transparent 53%),
+      radial-gradient(circle at 80% 75%, rgba(59, 130, 246, 0.22), transparent 55%),
+      radial-gradient(circle at 18% 72%, rgba(192, 38, 211, 0.2), transparent 50%),
+      radial-gradient(circle at 45% 50%, rgba(14, 165, 233, 0.18), transparent 60%),
+      linear-gradient(135deg, rgba(24, 24, 54, 0.75), rgba(10, 0, 45, 0.75)),
+      #01000f;
+  background-attachment: fixed;
+  transition: background 0.6s ease;
+}
+
 .site-main {
   max-width: 960px;
   margin: 0 auto;
   padding: 2.5rem 1.5rem 4rem;
+}
+
+
+.experience-toolbar {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1rem;
+  margin: 1.5rem auto 0;
+  width: 100%;
+  max-width: 640px;
+}
+
+.experience-toggle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(45, 212, 191, 0.35);
+  background: rgba(15, 23, 42, 0.75);
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  flex: 0 1 50%;
+  box-shadow: 0 12px 40px rgba(45, 212, 191, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  min-width: 0;
+}
+
+.experience-toggle:hover,
+.experience-toggle:focus {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 55px rgba(45, 212, 191, 0.3);
+}
+
+.experience-toggle img {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid rgba(45, 212, 191, 0.5);
+}
+
+.experience-toggle--alien {
+  border-color: rgba(129, 140, 248, 0.35);
+  box-shadow: 0 12px 40px rgba(129, 140, 248, 0.2);
+}
+
+.experience-toggle--alien:hover,
+.experience-toggle--alien:focus {
+  box-shadow: 0 20px 55px rgba(129, 140, 248, 0.3);
 }
 
 .hero {
@@ -157,6 +235,173 @@ body.page--home {
   padding: 2rem 1.5rem;
   text-align: center;
   color: rgba(148, 163, 184, 0.7);
+}
+
+.frog-field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.page--home.froggy-mode .frog-field {
+  opacity: 1;
+  z-index: 0;
+}
+
+.alien-field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.page--home.alien-mode .alien-field {
+  opacity: 1;
+  z-index: 0;
+}
+
+.frog-field__sprite {
+  position: absolute;
+  top: var(--start-y, 50vh);
+  left: -12vw;
+  width: 72px;
+  height: 72px;
+  pointer-events: none;
+  object-fit: contain;
+  background-color: transparent;
+  filter: drop-shadow(0 16px 32px rgba(56, 189, 248, 0.55));
+  opacity: 0.96;
+  transform: translate(-50%, -50%);
+  will-change: transform, top, left;
+  animation-name: var(--fly-animation, flyAcross), driftY,
+    var(--spin-animation, spin);
+  animation-duration: var(--fly-duration, 7s), var(--drift-duration, 2.6s),
+    var(--spin-duration, 2.4s);
+  animation-timing-function: linear, ease-in-out, linear;
+  animation-iteration-count: infinite, infinite, infinite;
+  animation-direction: normal, alternate, normal;
+  animation-delay: var(--fly-delay, 0s), var(--drift-delay, 0s),
+    var(--spin-delay, 0s);
+}
+
+.frog-field__sprite--tiny {
+  width: 44px;
+  height: 44px;
+  --spin-duration: 1.6s;
+  --drift-duration: 2s;
+}
+
+.frog-field__sprite--slow {
+  --fly-duration: 9.5s;
+  --spin-duration: 3.1s;
+}
+
+.alien-field__sprite {
+  position: absolute;
+  top: var(--start-y, 50vh);
+  left: -12vw;
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 20px 40px rgba(129, 140, 248, 0.55)) brightness(1.1);
+  opacity: 0.92;
+  transform: translate(-50%, -50%);
+  will-change: transform, top, left;
+  animation-name: var(--fly-animation, flyAcross), driftYAlt,
+    var(--spin-animation, spin);
+  animation-duration: var(--fly-duration, 6s), var(--drift-duration, 2s),
+    var(--spin-duration, 2s);
+  animation-timing-function: linear, ease-in-out, linear;
+  animation-iteration-count: infinite, infinite, infinite;
+  animation-direction: normal, alternate, normal;
+  animation-delay: var(--fly-delay, 0s), var(--drift-delay, 0s),
+    var(--spin-delay, 0s);
+}
+
+.alien-field__sprite--tiny {
+  width: 56px;
+  height: 56px;
+  --spin-duration: 1.4s;
+  --drift-duration: 1.6s;
+}
+
+.alien-field__sprite--slow {
+  --fly-duration: 8.5s;
+  --spin-duration: 2.8s;
+}
+
+@keyframes flyAcross {
+  0% {
+    left: -12vw;
+  }
+  100% {
+    left: 112vw;
+  }
+}
+
+@keyframes flyAcrossReverse {
+  0% {
+    left: 112vw;
+  }
+  100% {
+    left: -12vw;
+  }
+}
+
+@keyframes driftY {
+  0% {
+    top: var(--start-y);
+  }
+  50% {
+    top: var(--mid-y);
+  }
+  100% {
+    top: var(--end-y);
+  }
+}
+
+@keyframes driftYAlt {
+  0% {
+    top: var(--start-y);
+  }
+  50% {
+    top: var(--mid-y);
+  }
+  100% {
+    top: var(--end-y);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(0.88);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg) scale(1.14);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg) scale(0.88);
+  }
+}
+
+@keyframes spinReverse {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(0.88);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(-180deg) scale(1.14);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(-360deg) scale(0.88);
+  }
 }
 
 @media (max-width: 640px) {
