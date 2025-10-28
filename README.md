@@ -15,6 +15,35 @@ This Node.js application is configured to work with Neon Database in both develo
 - Neon account and project set up
 - Node.js 20+ (for local development without Docker)
 
+## 🚢 Deploy Setup
+
+Deploying through the Cloudflare tunnel stack follows a specific order so Traefik always talks to the right container.
+
+1. **Prepare configuration**: ensure `.env`, `.env.production`, and `.env.cloudflare` are populated with the latest values.
+2. **Stop other stacks** (only if previously started):
+   ```bash
+   docker compose -f docker-compose.prod.yml down
+   ```
+   This removes containers on the `acquisitions-prod` network that would otherwise shadow the tunnel stack.
+3. **Build & start the tunnel stack** (Traefik, Cloudflared, application, Portainer):
+   ```bash
+   docker compose -f docker-compose.cloudflare.yml up -d --build
+   ```
+4. **Verify health**:
+   ```bash
+   docker compose -f docker-compose.cloudflare.yml ps
+   docker compose -f docker-compose.cloudflare.yml logs -f app traefik cloudflared
+   ```
+
+For later updates to the application service, reuse the same file:
+
+```bash
+docker compose -f docker-compose.cloudflare.yml up -d app        # rebuild only if app code changed
+docker compose -f docker-compose.cloudflare.yml up -d --build app # include --build if dependencies changed
+```
+
+Avoid running `docker-compose.prod.yml` and `docker-compose.cloudflare.yml` at the same time—using both stacks concurrently puts the app on different networks and results in 404s at the tunnel hostname.
+
 ## 🔧 Environment Setup
 
 ### 1. Neon Configuration
