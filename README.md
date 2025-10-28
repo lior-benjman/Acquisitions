@@ -31,6 +31,7 @@ The application uses different environment files for different environments:
 
 - `.env.development`: Development environment with Neon Local
 - `.env.production`: Production environment with Neon Cloud
+- `.env`: Shared values consumed by Traefik and the Cloudflare tunnel stack
 
 #### Update Development Environment
 
@@ -70,6 +71,18 @@ DATABASE_URL=postgresql://your_production_neon_url_here
 # Arcjet
 ARCJET_KEY=ajkey_01k79wqth1fw492nhxmw0kgs1p
 ```
+
+#### Update Base Environment
+
+Set the hostnames Traefik should serve by editing `.env`. These values are imported by `docker-compose.cloudflare.yml` when running behind Cloudflare.
+
+```env
+# Traefik hostnames
+TRAEFIK_APP_HOST=app.example.com
+TRAEFIK_PORTAINER_HOST=portainer.example.com
+```
+
+Swap the example domains for the real hostnames you publish through Cloudflare Zero Trust.
 
 ## 🚀 Development Environment
 
@@ -157,8 +170,8 @@ docker-compose -f docker-compose.prod.yml exec app npm run db:migrate
 Use the `docker-compose.cloudflare.yml` stack to serve the application through a Cloudflare Tunnel that terminates at Traefik.
 
 1. **Create the tunnel** – In Cloudflare Zero Trust, create a tunnel, add a DNS route for your hostname, and copy the one-line connector token from the **Connect** tab.
-2. **Store the token** – Copy `.env.cloudflare.example` to `.env.cloudflare` and paste the token value into `CLOUDFLARE_TUNNEL_TOKEN`.
-3. **Set the public hostname** – Provide the hostname Traefik should match by creating (or updating) a project-level `.env` file with `TRAEFIK_APP_HOST=app.example.com`, or export it inline when running Docker Compose.
+2. **Store the token** – Copy `.env.cloudflare.example` to `.env.cloudflare` and paste the connector token into `TUNNEL_TOKEN`.
+3. **Set the public hostnames** – Update `.env` with the domains Traefik should match, for example `TRAEFIK_APP_HOST=app.example.com` and `TRAEFIK_PORTAINER_HOST=portainer.example.com`. Alternatively, export the variables inline when running Docker Compose.
 4. **Verify app configuration** – Ensure `.env.production` contains the production environment variables required by the Node.js app.
 5. **Start the stack**:
 
@@ -201,6 +214,21 @@ docker run -p 3000:3000 --env-file .env.production acquisitions:prod
 ```
 
 ## 📊 Monitoring and Debugging
+
+### Portainer Management UI
+
+The production stack exposes Portainer Community Edition so you can manage the Docker environment through a browser.
+
+1. Confirm `.env` defines `TRAEFIK_PORTAINER_HOST` (for example `portainer.lior-benjman.work`).
+2. Start or update the service:
+   ```bash
+   docker compose -f docker-compose.cloudflare.yml up -d portainer
+   ```
+3. Complete the initial admin setup at `http://localhost:9000`.
+4. To publish Portainer through the Cloudflare tunnel:
+   - In **Zero Trust → Networks → Tunnels → [tunnel] → Public Hostnames**, add an entry that matches `TRAEFIK_PORTAINER_HOST` and points at `http://traefik:80`.
+   - In the Cloudflare DNS panel, create a proxied CNAME for the same hostname that targets your tunnel’s `*.cfargotunnel.com` address.
+5. After both Cloudflare steps, browse to `https://<TRAEFIK_PORTAINER_HOST>/` to reach the UI via Cloudflare. Consider adding Cloudflare Access policies if the endpoint should be restricted. If you want Portainer reachable only through the tunnel, adjust the compose file to bind port `9000` to `127.0.0.1` or remove the port mapping entirely.
 
 ### Checking Container Status
 
