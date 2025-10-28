@@ -1,0 +1,13 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'traefik'
+    static_configs:
+      - targets: ['traefik:8080']
+
+  - job_name: 'acquisitions_app'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['acquisitions-app:3000']

@@ -9,6 +9,10 @@ services:
       - --providers.file.directory=/etc/traefik/dynamic
       - --entrypoints.web.address=:80
       - --api.dashboard=true
+      - --metrics.prometheus=true
+      - --metrics.prometheus.addentrypointslabels=true
+      - --metrics.prometheus.addserviceslabels=true
+      - --metrics.prometheus.addrouterslabels=true
     ports:
       - '80:80'
     volumes:
@@ -77,9 +81,50 @@ services:
     environment:
       - HTTP_ORIGIN=https://${TRAEFIK_PORTAINER_HOST:-portainer.example.com}
 
+  prometheus:
+    image: prom/prometheus:v3.0.1
+    container_name: acquisitions-prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=15d
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    restart: unless-stopped
+    networks:
+      - acquisitions-proxy
+
+  grafana:
+    image: grafana/grafana:11.3.0
+    container_name: acquisitions-grafana
+    depends_on:
+      - prometheus
+    ports:
+      - '127.0.0.1:3001:3000'
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-change-me}
+      - GF_SERVER_ROOT_URL=https://${TRAEFIK_GRAFANA_HOST:-grafana.example.com}
+      - GF_SERVER_DOMAIN=${TRAEFIK_GRAFANA_HOST:-grafana.example.com}
+    volumes:
+      - grafana_data:/var/lib/grafana
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.grafana.rule=Host(`${TRAEFIK_GRAFANA_HOST:-grafana.example.com}`)'
+      - 'traefik.http.routers.grafana.entrypoints=web'
+      - 'traefik.http.routers.grafana.middlewares=security-headers@file'
+      - 'traefik.http.services.grafana.loadbalancer.server.port=3000'
+      - 'traefik.docker.network=acquisitions-proxy'
+    networks:
+      - acquisitions-proxy
+    restart: unless-stopped
+
 networks:
   acquisitions-proxy:
     driver: bridge
 
 volumes:
   portainer_data:
+  prometheus_data:
+  grafana_data:

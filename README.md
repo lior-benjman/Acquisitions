@@ -109,9 +109,15 @@ Set the hostnames Traefik should serve by editing `.env`. These values are impor
 # Traefik hostnames
 TRAEFIK_APP_HOST=app.example.com
 TRAEFIK_PORTAINER_HOST=portainer.example.com
+TRAEFIK_GRAFANA_HOST=grafana.example.com
+
+# Grafana credentials
+GRAFANA_ADMIN_USER=admin
+GRAFANA_ADMIN_PASSWORD=change-me
 ```
 
 Swap the example domains for the real hostnames you publish through Cloudflare Zero Trust.
+Update the Grafana admin credentials before deploying to production environments.
 
 ## 🚀 Development Environment
 
@@ -258,6 +264,24 @@ The production stack exposes Portainer Community Edition so you can manage the D
    - In **Zero Trust → Networks → Tunnels → [tunnel] → Public Hostnames**, add an entry that matches `TRAEFIK_PORTAINER_HOST` and points at `http://traefik:80`.
    - In the Cloudflare DNS panel, create a proxied CNAME for the same hostname that targets your tunnel’s `*.cfargotunnel.com` address.
 5. After both Cloudflare steps, browse to `https://<TRAEFIK_PORTAINER_HOST>/` to reach the UI via Cloudflare. Consider adding Cloudflare Access policies if the endpoint should be restricted. If you want Portainer reachable only through the tunnel, adjust the compose file to bind port `9000` to `127.0.0.1` or remove the port mapping entirely.
+
+### Grafana & Prometheus Dashboards
+
+Grafana is bundled alongside Prometheus to visualise service metrics (Traefik, the Node.js app, container health, etc.).
+
+1. Populate the Grafana variables in `.env` (`TRAEFIK_GRAFANA_HOST`, `GRAFANA_ADMIN_USER`, `GRAFANA_ADMIN_PASSWORD`).
+2. Start the monitoring stack:
+   ```bash
+   docker compose -f docker-compose.cloudflare.yml up -d prometheus grafana
+   ```
+   The command automatically starts Prometheus if it is not already running.
+3. Complete the Grafana setup locally at `http://localhost:3001` using the credentials from `.env`.
+4. Publish the hostname through Cloudflare:
+   - Zero Trust → Networks → Tunnels → _tunnel_ → **Public Hostnames** → add `TRAEFIK_GRAFANA_HOST` pointing to `http://traefik:80`.
+   - DNS → add a proxied CNAME for the same hostname targeting the tunnel’s `*.cfargotunnel.com` record.
+5. In Grafana, add Prometheus as a data source with URL `http://prometheus:9090` (internal Docker DNS) and import the [Traefik official dashboard](https://grafana.com/grafana/dashboards/). You can also build dashboards for the Node.js `/metrics` data.
+6. Tweak `monitoring/prometheus.yml` if you add more scrape targets or change metric endpoints.
+7. Consider enabling Cloudflare Access or Grafana role-based auth before exposing the dashboards publicly.
 
 ### Checking Container Status
 
