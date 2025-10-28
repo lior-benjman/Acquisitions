@@ -1,0 +1,60 @@
+services:
+  traefik:
+    image: traefik:v2.11
+    container_name: acquisitions-traefik
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=acquisitions-proxy
+      - --providers.file.directory=/etc/traefik/dynamic
+      - --entrypoints.web.address=:80
+      - --api.dashboard=true
+    ports:
+      - '80:80'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./traefik/dynamic:/etc/traefik/dynamic:ro
+    networks:
+      - acquisitions-proxy
+    restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:2024.6.0
+    container_name: acquisitions-cloudflared
+    command:
+      - tunnel
+      - --no-autoupdate
+      - run
+    env_file:
+      - .env.cloudflare
+    depends_on:
+      - traefik
+    restart: unless-stopped
+    networks:
+      - acquisitions-proxy
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: acquisitions-app
+    env_file:
+      - .env.production
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.app.rule=Host(`${TRAEFIK_APP_HOST:-app.example.com}`)'
+      - 'traefik.http.routers.app.entrypoints=web'
+      - 'traefik.http.services.app.loadbalancer.server.port=3000'
+      - 'traefik.docker.network=acquisitions-proxy'
+      - 'traefik.http.routers.app.middlewares=security-headers@file'
+    depends_on:
+      - traefik
+    networks:
+      - acquisitions-proxy
+    restart: unless-stopped
+
+networks:
+  acquisitions-proxy:
+    driver: bridge

@@ -1,0 +1,2 @@
+# Copy this file to .env.cloudflare and fill in the values before running the stack.
+TUNNEL_TOKEN=REPLACE_WITH_YOUR_CLOUDFLARE_TUNNEL_TOKEN

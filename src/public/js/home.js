@@ -5,9 +5,9 @@
   const feedback = document.querySelector('#newsletter-feedback');
   const navContainer = document.querySelector('[data-nav-user]');
   const frogToggle = document.querySelector('#froggy-toggle');
-  const frogAudio = document.querySelector('#frog-audio');
+  const frogAudio = document.getElementById('frog-audio');
   const alienToggle = document.querySelector('#alien-toggle');
-  const alienAudio = document.querySelector('#alien-audio');
+  const alienAudio = document.getElementById('alien-audio');
   const body = document.body;
   const yearEl = document.getElementById('year');
 

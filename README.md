@@ -152,6 +152,32 @@ docker-compose -f docker-compose.prod.yml down
 docker-compose -f docker-compose.prod.yml exec app npm run db:migrate
 ```
 
+## ☁️ Cloudflare Tunnel with Traefik
+
+Use the `docker-compose.cloudflare.yml` stack to serve the application through a Cloudflare Tunnel that terminates at Traefik.
+
+1. **Create the tunnel** – In Cloudflare Zero Trust, create a tunnel, add a DNS route for your hostname, and copy the one-line connector token from the **Connect** tab.
+2. **Store the token** – Copy `.env.cloudflare.example` to `.env.cloudflare` and paste the token value into `CLOUDFLARE_TUNNEL_TOKEN`.
+3. **Set the public hostname** – Provide the hostname Traefik should match by creating (or updating) a project-level `.env` file with `TRAEFIK_APP_HOST=app.example.com`, or export it inline when running Docker Compose.
+4. **Verify app configuration** – Ensure `.env.production` contains the production environment variables required by the Node.js app.
+5. **Start the stack**:
+
+   ```bash
+   docker compose -f docker-compose.cloudflare.yml up -d --build
+   ```
+
+6. **Monitor connectivity** – Check the logs to confirm both Traefik and Cloudflared are healthy:
+
+   ```bash
+   docker compose -f docker-compose.cloudflare.yml logs -f cloudflared
+   docker compose -f docker-compose.cloudflare.yml logs -f traefik
+   ```
+
+### Security notes
+
+- The Traefik dashboard is available at `/dashboard`; restrict it before exposing the stack publicly (e.g., by adding basic auth or disabling `--api.dashboard`).
+- Cloudflared forwards traffic to Traefik over HTTP on the internal network. If you need HTTPS between Cloudflared and Traefik, add an `websecure` entrypoint in `traefik/traefik.yml` and adjust the tunnel route accordingly.
+
 ## 🛠️ Manual Docker Commands
 
 ### Building the Application
