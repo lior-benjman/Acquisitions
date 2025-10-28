@@ -68,10 +68,14 @@ services:
       - 'traefik.enable=true'
       - 'traefik.http.routers.portainer.rule=Host(`${TRAEFIK_PORTAINER_HOST:-portainer.example.com}`)'
       - 'traefik.http.routers.portainer.entrypoints=web'
+      - 'traefik.http.routers.portainer.middlewares=security-headers@file,portainer-forward-proto'
       - 'traefik.http.services.portainer.loadbalancer.server.port=9000'
+      - 'traefik.http.middlewares.portainer-forward-proto.headers.customrequestheaders.X-Forwarded-Proto=https'
       - 'traefik.docker.network=acquisitions-proxy'
     networks:
       - acquisitions-proxy
+    environment:
+      - HTTP_ORIGIN=https://${TRAEFIK_PORTAINER_HOST:-portainer.example.com}
 
 networks:
   acquisitions-proxy:
