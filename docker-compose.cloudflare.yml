@@ -56,7 +56,7 @@ services:
     restart: unless-stopped
 
   portainer:
-    image: portainer/portainer-ce:2.20.3
+    image: portainer/portainer-ce:alpine-sts
     container_name: acquisitions-portainer
     ports:
       - '9000:9000'
