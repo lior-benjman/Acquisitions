@@ -1,9 +1,6 @@
 :root {
-  --shop-gradient: radial-gradient(
-      circle at top,
-      rgba(56, 189, 248, 0.15),
-      transparent 55%
-    ),
+  --shop-gradient:
+    radial-gradient(circle at top, rgba(56, 189, 248, 0.15), transparent 55%),
     radial-gradient(
       circle at 20% 20%,
       rgba(45, 212, 191, 0.2),
@@ -32,11 +29,8 @@
   gap: 2rem;
   padding: 2.5rem;
   border-radius: 24px;
-  background: linear-gradient(
-      135deg,
-      rgba(45, 212, 191, 0.12),
-      rgba(15, 23, 42, 0.75)
-    ),
+  background:
+    linear-gradient(135deg, rgba(45, 212, 191, 0.12), rgba(15, 23, 42, 0.75)),
     var(--surface);
   border: 1px solid rgba(148, 163, 184, 0.25);
   box-shadow:
