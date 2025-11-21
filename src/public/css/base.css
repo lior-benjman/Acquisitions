@@ -120,6 +120,22 @@ button {
   color: var(--accent);
 }
 
+.nav-link--active {
+  color: var(--accent);
+  position: relative;
+}
+
+.nav-link--active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+  opacity: 0.85;
+}
+
 .nav-user {
   display: inline-flex;
   align-items: center;

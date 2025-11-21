@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import authRoutes from '#routes/auth.routes.js';
 import securityMiddleware from '#middleware/security.middleware.js';
 import usersRoutes from '#routes/users.routes.js';
+import productsRoutes from '#routes/products.routes.js';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -123,6 +124,11 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(publicDir, 'index.html'));
 });
 
+app.get('/shop', (req, res) => {
+  logger.info('Serving curated shop experience');
+  res.sendFile(path.join(publicDir, 'shop.html'));
+});
+
 app.get('/sign-in', (req, res) => {
   res.sendFile(path.join(publicDir, 'signin.html'));
 });
@@ -158,6 +164,7 @@ app.get('/api', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/products', productsRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });

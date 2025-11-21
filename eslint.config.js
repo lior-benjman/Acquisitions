@@ -40,6 +40,7 @@ export default [
         document: 'readonly',
         fetch: 'readonly',
         FormData: 'readonly',
+        HTMLElement: 'readonly',
       },
     },
   },

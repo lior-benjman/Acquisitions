@@ -226,6 +226,25 @@ Use the `docker-compose.cloudflare.yml` stack to serve the application through a
 - The Traefik dashboard is available at `/dashboard`; restrict it before exposing the stack publicly (e.g., by adding basic auth or disabling `--api.dashboard`).
 - Cloudflared forwards traffic to Traefik over HTTP on the internal network. If you need HTTPS between Cloudflared and Traefik, add an `websecure` entrypoint in `traefik/traefik.yml` and adjust the tunnel route accordingly.
 
+## 🛍️ Curated Shop Page
+
+Visit `https://lior-benjman.work/shop` (or `/shop` locally) to see the new beauty and supplement recommendation hub. Each tile is a clickable image that sends visitors to the product page you configured.
+
+### Database & API
+
+- Run the latest migrations (`npm run db:migrate`) to create the `shop_products` table and seed it with starter picks.
+- Public endpoint: `GET /api/products` returns all featured items grouped by category.
+- Admin-only endpoints (require an admin JWT cookie):
+  - `POST /api/products` to add a new item with `{ name, category, imageUrl, linkUrl }`.
+  - `DELETE /api/products/:id` to remove an outdated recommendation.
+
+### Admin workflow
+
+1. Sign in on `/shop` using an admin account (create one via `/api/auth/sign-up` with `role=admin` if needed).
+2. Once authenticated, the Creator Console unlocks a form where you can paste the product image URL and purchase link.
+3. Newly published items appear immediately in the beauty or supplement grid and remain editable through the remove buttons while you are signed in as admin.
+4. Use the inline sign-out button to revert to the guest view at any time.
+
 ## 🛠️ Manual Docker Commands
 
 ### Building the Application
