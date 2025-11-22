@@ -232,7 +232,7 @@ Visit `https://lior-benjman.work/shop` (or `/shop` locally) to see the new beaut
 
 ### Database & API
 
-- Run the latest migrations (`npm run db:migrate`) to create the `shop_products` table and seed it with starter picks.
+- Run the latest migrations (`npm run db:migrate`) to create the `shop_products` table and seed it with starter picks. If you prefer the API to create the table on demand (useful in ephemeral preview environments), set `SHOP_AUTO_BOOTSTRAP=true` in the service environment so the catalog bootstraps itself during the first `/api/products` call.
 - Public endpoint: `GET /api/products` returns all featured items grouped by category.
 - Admin-only endpoints (require an admin JWT cookie):
   - `POST /api/products` to add a new item with `{ name, category, imageUrl, linkUrl }`.
@@ -240,10 +240,10 @@ Visit `https://lior-benjman.work/shop` (or `/shop` locally) to see the new beaut
 
 ### Admin workflow
 
-1. Sign in on `/shop` using an admin account (create one via `/api/auth/sign-up` with `role=admin` if needed).
-2. Once authenticated, the Creator Console unlocks a form where you can paste the product image URL and purchase link.
-3. Newly published items appear immediately in the beauty or supplement grid and remain editable through the remove buttons while you are signed in as admin.
-4. Use the inline sign-out button to revert to the guest view at any time.
+1. Visit `/creator` (or `https://lior-benjman.work/creator`) to open the Creator Console and sign in with an admin account (create one via `/api/auth/sign-up` with `role=admin` if needed).
+2. Once authenticated, the console unlocks the publishing form where you can paste a product image URL and purchase link.
+3. Newly published or edited items appear immediately in the beauty or supplement grids on `/shop`—each card now offers **Edit** and **Remove** controls for authenticated admins.
+4. Click **Edit** to load a product into the form, adjust its fields, and save; use the inline “Cancel editing” button to reset or the sign-out button to return to the guest view at any time.
 
 ## 🛠️ Manual Docker Commands
 

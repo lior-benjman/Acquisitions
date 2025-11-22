@@ -1,10 +1,15 @@
 import logger from '#config/logger.js';
 import { formatValidationError } from '#utils/format.js';
-import { createProductSchema } from '#validations/product.validation.js';
+import {
+  createProductSchema,
+  productIdSchema,
+  updateProductSchema,
+} from '#validations/product.validation.js';
 import {
   listShopProducts,
   createShopProduct,
   deleteShopProduct,
+  updateShopProduct,
 } from '#services/products.service.js';
 
 export const getProducts = async (req, res, next) => {
@@ -43,13 +48,15 @@ export const createProduct = async (req, res, next) => {
 
 export const deleteProduct = async (req, res, next) => {
   try {
-    const productId = Number(req.params.id);
-
-    if (!Number.isInteger(productId) || productId <= 0) {
-      return res.status(400).json({ error: 'Invalid product id' });
+    const idResult = productIdSchema.safeParse({ id: req.params.id });
+    if (!idResult.success) {
+      return res.status(400).json({
+        error: 'Validation failed',
+        details: formatValidationError(idResult.error),
+      });
     }
 
-    await deleteShopProduct(productId);
+    await deleteShopProduct(idResult.data.id);
 
     res.status(200).json({ message: 'Product removed' });
   } catch (error) {
@@ -58,6 +65,36 @@ export const deleteProduct = async (req, res, next) => {
     }
 
     logger.error('Error deleting shop product', error);
+    next(error);
+  }
+};
+
+export const updateProduct = async (req, res, next) => {
+  try {
+    const idResult = productIdSchema.safeParse({ id: req.params.id });
+    if (!idResult.success) {
+      return res.status(400).json({
+        error: 'Validation failed',
+        details: formatValidationError(idResult.error),
+      });
+    }
+
+    const validation = updateProductSchema.safeParse(req.body);
+    if (!validation.success) {
+      return res.status(400).json({
+        error: 'Validation failed',
+        details: formatValidationError(validation.error),
+      });
+    }
+
+    const product = await updateShopProduct(idResult.data.id, validation.data);
+    res.status(200).json({ product });
+  } catch (error) {
+    if (error.message === 'Product not found') {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    logger.error('Error updating shop product', error);
     next(error);
   }
 };

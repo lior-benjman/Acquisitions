@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creator Console | Lior Benjman</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/shop.css" />
+  </head>
+  <body class="page page--shop page--creator" data-admin-console="true">
+    <header class="site-header">
+      <nav class="site-nav">
+        <div class="brand">
+          <span class="brand-symbol">Δ</span>
+          <span>DevOps Compass</span>
+        </div>
+        <ul class="nav-list">
+          <li><a class="nav-link" href="/#about">About</a></li>
+          <li>
+            <a class="nav-link" href="/#about-project">About this page</a>
+          </li>
+          <li><a class="nav-link" href="/#spotlight">Spotlight</a></li>
+          <li><a class="nav-link" href="/shop">Shop</a></li>
+          <li><a class="nav-link" href="/#tooling">Tooling</a></li>
+          <li><a class="nav-link" href="/#culture">Culture</a></li>
+          <li><a class="nav-link" href="/#newsletter">Newsletter</a></li>
+          <li>
+            <a
+              class="nav-link nav-link--active"
+              href="/creator"
+              aria-current="page"
+              >Creator console</a
+            >
+          </li>
+          <li class="nav-user" data-nav-user>
+            <a class="nav-link" id="nav-auth-link" href="/sign-in">Sign In</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="creator-main">
+      <section class="creator-hero">
+        <div class="creator-hero__content">
+          <p class="shop-hero__eyebrow">Creator workspace</p>
+          <h1>Publish, tweak, and retire shop picks</h1>
+          <p class="shop-hero__copy">
+            This dedicated admin view keeps the guest experience clean while you
+            handle curation. Sign in to unlock the product form, upload imagery,
+            and push new cards live in seconds.
+          </p>
+          <div class="creator-hero__actions">
+            <a class="button button-secondary" href="/shop">Preview the shop</a>
+          </div>
+        </div>
+        <div class="shop-hero__stat creator-hero__stat">
+          <span data-admin-product-count>Loading picks...</span>
+          <p>Featured items currently live on the shop</p>
+        </div>
+      </section>
+
+      <section class="creator-console" data-admin-panel>
+        <header class="creator-console__header">
+          <div>
+            <p class="collection__eyebrow">Creator console</p>
+            <h2>Manage recommendations</h2>
+          </div>
+          <button
+            class="creator-console__logout"
+            type="button"
+            data-admin-logout
+            hidden
+          >
+            Sign out
+          </button>
+        </header>
+        <p class="creator-console__status" data-admin-status>
+          Sign in with your admin account to add a new beauty or supplement
+          feature.
+        </p>
+
+        <form class="creator-console__form" data-admin-login novalidate>
+          <div class="form-row">
+            <label for="admin-email">Admin email</label>
+            <input
+              id="admin-email"
+              name="email"
+              type="email"
+              placeholder="you@lior-benjman.work"
+              autocomplete="email"
+              required
+            />
+          </div>
+          <div class="form-row">
+            <label for="admin-password">Password</label>
+            <input
+              id="admin-password"
+              name="password"
+              type="password"
+              placeholder="••••••••"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+          <button class="button button-primary" type="submit">
+            Sign in & manage
+          </button>
+        </form>
+
+        <form
+          class="creator-console__form creator-console__form--product"
+          data-product-form
+          hidden
+          novalidate
+        >
+          <div class="form-grid">
+            <label>
+              Product name
+              <input
+                name="name"
+                type="text"
+                placeholder="HydraBloom Peptide Moisturizer"
+                required
+              />
+            </label>
+            <label>
+              Category
+              <select name="category" required>
+                <option value="">Select category</option>
+                <option value="beauty">Beauty ritual</option>
+                <option value="supplement">Food supplement</option>
+              </select>
+            </label>
+            <label>
+              Image URL
+              <input
+                name="imageUrl"
+                type="url"
+                placeholder="https://"
+                required
+              />
+            </label>
+            <label>
+              Purchase link
+              <input
+                name="linkUrl"
+                type="url"
+                placeholder="https://"
+                required
+              />
+            </label>
+          </div>
+          <button
+            class="button button-secondary"
+            type="submit"
+            data-product-submit
+          >
+            Publish new product
+          </button>
+          <button
+            class="button button-ghost"
+            type="button"
+            data-cancel-edit
+            hidden
+          >
+            Cancel editing
+          </button>
+        </form>
+
+        <p
+          class="creator-console__feedback"
+          data-admin-feedback
+          aria-live="polite"
+        ></p>
+      </section>
+
+      <section class="creator-preview collection" data-collection="beauty">
+        <div class="collection__header">
+          <div>
+            <p class="collection__eyebrow">Beauty rituals</p>
+            <h2>Live products</h2>
+          </div>
+          <p>
+            Review every beauty card before it appears on the public shop. Click
+            **Edit** or **Remove** to adjust picks inline.
+          </p>
+        </div>
+        <div class="product-grid" data-product-grid="beauty"></div>
+        <p class="product-empty" data-empty-state="beauty">
+          No beauty rituals yet.
+        </p>
+      </section>
+
+      <section class="creator-preview collection" data-collection="supplement">
+        <div class="collection__header">
+          <div>
+            <p class="collection__eyebrow">Food supplements</p>
+            <h2>Supplement lineup</h2>
+          </div>
+          <p>
+            Keep recovery and energy picks fresh. Edits here update the `/shop`
+            experience immediately.
+          </p>
+        </div>
+        <div class="product-grid" data-product-grid="supplement"></div>
+        <p class="product-empty" data-empty-state="supplement">
+          No supplement picks yet.
+        </p>
+      </section>
+    </main>
+    <script defer src="/js/shop.js?v=4"></script>
+  </body>
+</html>

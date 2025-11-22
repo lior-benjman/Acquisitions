@@ -198,6 +198,19 @@ button {
   border: 1px solid rgba(148, 163, 184, 0.25);
 }
 
+.button-ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px dashed rgba(148, 163, 184, 0.4);
+  padding: 0.7rem 1.2rem;
+}
+
+.button-ghost:hover,
+.button-ghost:focus {
+  color: var(--text);
+  border-color: rgba(56, 189, 248, 0.6);
+}
+
 .inline-link {
   color: var(--accent);
   text-decoration: none;

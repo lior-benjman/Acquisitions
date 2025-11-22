@@ -25,3 +25,16 @@ export const createProductSchema = z.object({
     })
     .url('Please provide a valid purchase URL'),
 });
+
+export const updateProductSchema = createProductSchema
+  .partial()
+  .refine(data => Object.keys(data).length > 0, {
+    message: 'Provide at least one field to update.',
+  });
+
+export const productIdSchema = z.object({
+  id: z.coerce
+    .number()
+    .int('Product id must be a valid integer.')
+    .positive('Product id must be positive.'),
+});

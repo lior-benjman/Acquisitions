@@ -4,6 +4,8 @@
   const navContainer = document.querySelector('[data-nav-user]');
   const loginForm = document.querySelector('[data-admin-login]');
   const productForm = document.querySelector('[data-product-form]');
+  const productSubmitBtn = productForm?.querySelector('[data-product-submit]');
+  const cancelEditBtn = productForm?.querySelector('[data-cancel-edit]');
   const adminStatus = document.querySelector('[data-admin-status]');
   const adminFeedback = document.querySelector('[data-admin-feedback]');
   const logoutBtn = document.querySelector('[data-admin-logout]');
@@ -16,6 +18,7 @@
     beauty: document.querySelector('[data-empty-state="beauty"]'),
     supplement: document.querySelector('[data-empty-state="supplement"]'),
   };
+  const allowAdminConsole = document.body?.dataset?.adminConsole === 'true';
 
   const badgeCopy = {
     beauty: 'Beauty ritual',
@@ -25,6 +28,7 @@
   const state = {
     user: null,
     products: [],
+    editingProductId: null,
   };
 
   const setFeedback = (message = '', tone = 'neutral') => {
@@ -38,6 +42,62 @@
     } else if (tone === 'error') {
       adminFeedback.classList.add('error');
     }
+  };
+
+  const setFormMode = mode => {
+    if (!productForm) return;
+    productForm.dataset.mode = mode;
+    if (productSubmitBtn) {
+      productSubmitBtn.textContent =
+        mode === 'edit' ? 'Save changes' : 'Publish new product';
+    }
+    if (cancelEditBtn) {
+      cancelEditBtn.hidden = mode !== 'edit';
+    }
+  };
+
+  const fillProductFormFields = product => {
+    if (!productForm || !product) return;
+    const setFieldValue = (name, value) => {
+      const field = productForm.querySelector(`[name="${name}"]`);
+      if (field) field.value = value ?? '';
+    };
+
+    setFieldValue('name', product.name);
+    setFieldValue('category', product.category);
+    setFieldValue('imageUrl', product.imageUrl);
+    setFieldValue('linkUrl', product.linkUrl);
+  };
+
+  const resetProductForm = () => {
+    if (!productForm) return;
+    productForm.reset();
+    state.editingProductId = null;
+    setFormMode('create');
+  };
+
+  const syncEditingFormValues = () => {
+    if (!state.editingProductId) return;
+    const product = state.products.find(
+      item => item.id === state.editingProductId
+    );
+    if (!product) {
+      resetProductForm();
+      return;
+    }
+    fillProductFormFields(product);
+  };
+
+  const startEditingProduct = product => {
+    if (!productForm || !product) return;
+    state.editingProductId = product.id;
+    fillProductFormFields(product);
+    setFormMode('edit');
+    setFeedback(
+      `Editing "${product.name}". Update the fields below and save.`,
+      'neutral'
+    );
+    productForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
   const renderGuestNav = () => {
@@ -123,6 +183,10 @@
         logoutBtn.dataset.bound = 'true';
       }
     }
+
+    if (!isAdmin) {
+      resetProductForm();
+    }
   };
 
   const buildProductCard = product => {
@@ -162,13 +226,24 @@
     link.append(badge, figure, body);
     card.appendChild(link);
 
-    if (state.user?.role === 'admin') {
+    if (allowAdminConsole && state.user?.role === 'admin') {
+      const actions = document.createElement('div');
+      actions.className = 'product-card__actions';
+
+      const editBtn = document.createElement('button');
+      editBtn.type = 'button';
+      editBtn.className = 'product-card__edit';
+      editBtn.textContent = 'Edit';
+      editBtn.dataset.editProduct = product.id;
+
       const removeBtn = document.createElement('button');
       removeBtn.type = 'button';
       removeBtn.className = 'product-card__remove';
       removeBtn.textContent = 'Remove';
       removeBtn.dataset.removeProduct = product.id;
-      card.appendChild(removeBtn);
+
+      actions.append(editBtn, removeBtn);
+      card.appendChild(actions);
     }
 
     return card;
@@ -211,6 +286,7 @@
       renderProducts();
       updateProductCount();
       updateAdminPanel();
+      syncEditingFormValues();
     } catch (error) {
       console.error(error);
       state.products = [];
@@ -313,11 +389,17 @@
       return;
     }
 
-    setFeedback('Publishing product...');
+    const isEditing = Boolean(state.editingProductId);
+    const endpoint = isEditing
+      ? `/api/products/${state.editingProductId}`
+      : '/api/products';
+    const method = isEditing ? 'PATCH' : 'POST';
+
+    setFeedback(isEditing ? 'Saving changes...' : 'Publishing product...');
 
     try {
-      const response = await fetch('/api/products', {
-        method: 'POST',
+      const response = await fetch(endpoint, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
@@ -325,22 +407,41 @@
       const data = await response.json();
 
       if (!response.ok) {
+        const detailMessage = Array.isArray(data?.details)
+          ? data.details.join(', ')
+          : data?.details;
         const message =
+          detailMessage ||
           data?.error ||
-          data?.details ||
           data?.message ||
           'Unable to save the product.';
         setFeedback(message, 'error');
         return;
       }
 
-      productForm.reset();
-      setFeedback('Product published successfully.', 'success');
+      resetProductForm();
+      setFeedback(
+        isEditing
+          ? 'Product updated successfully.'
+          : 'Product published successfully.',
+        'success'
+      );
       await fetchProducts();
     } catch (error) {
       console.error(error);
       setFeedback('Unable to reach the server.', 'error');
     }
+  };
+
+  const handleProductEdit = productId => {
+    const targetProduct = state.products.find(
+      product => product.id === productId
+    );
+    if (!targetProduct) {
+      setFeedback('Unable to locate that product for editing.', 'error');
+      return;
+    }
+    startEditingProduct(targetProduct);
   };
 
   const handleProductDelete = async productId => {
@@ -361,6 +462,9 @@
       }
 
       setFeedback('Product removed.', 'success');
+      if (state.editingProductId === productId) {
+        resetProductForm();
+      }
       await fetchProducts();
     } catch (error) {
       console.error(error);
@@ -374,6 +478,14 @@
       grid.addEventListener('click', event => {
         const target = event.target;
         if (!(target instanceof HTMLElement)) return;
+        const editBtn = target.closest('[data-edit-product]');
+        if (editBtn) {
+          const productId = Number(editBtn.dataset.editProduct);
+          if (!Number.isNaN(productId)) {
+            handleProductEdit(productId);
+          }
+          return;
+        }
         const removeBtn = target.closest('[data-remove-product]');
         if (!removeBtn) return;
         const productId = Number(removeBtn.dataset.removeProduct);
@@ -388,7 +500,18 @@
   }
 
   if (productForm) {
+    setFormMode('create');
+  }
+
+  if (productForm) {
     productForm.addEventListener('submit', handleProductSubmit);
+  }
+
+  if (cancelEditBtn) {
+    cancelEditBtn.addEventListener('click', () => {
+      resetProductForm();
+      setFeedback('Editing cancelled.', 'neutral');
+    });
   }
 
   bindGridEvents();

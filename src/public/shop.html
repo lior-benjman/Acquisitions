@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/base.css" />
     <link rel="stylesheet" href="/css/shop.css" />
   </head>
-  <body class="page page--shop">
+  <body class="page page--shop" data-admin-console="false">
     <header class="site-header">
       <nav class="site-nav">
         <div class="brand">
@@ -31,6 +31,7 @@
           <li><a class="nav-link" href="/#tooling">Tooling</a></li>
           <li><a class="nav-link" href="/#culture">Culture</a></li>
           <li><a class="nav-link" href="/#newsletter">Newsletter</a></li>
+          <li><a class="nav-link" href="/creator">Creator console</a></li>
           <li class="nav-user" data-nav-user>
             <a class="nav-link" id="nav-auth-link" href="/sign-in">Sign In</a>
           </li>
@@ -45,7 +46,7 @@
           <h1>Beauty & supplement picks that keep pace with life on-call</h1>
           <p class="shop-hero__copy">
             I test a lot of routines to stay sharp through long incidents and
-            launch weeks. These are the products I keep reaching for&mdash;clean
+            launch weeks. These are the products I keep reaching for clean
             formulas, steady energy, and quick wins you can click, buy, and use
             right away.
           </p>
@@ -70,7 +71,7 @@
           </div>
           <p>
             Lightweight layers that survive on-call nights and Tel Aviv heat.
-            Every image is clickable&mdash;tap through to buy from the source.
+            Every image is clickable, tap through to buy from the source.
           </p>
         </div>
         <div class="product-grid" data-product-grid="beauty"></div>
@@ -86,8 +87,8 @@
             <h2>Energy, recovery & focus support</h2>
           </div>
           <p>
-            These blends keep context switching calm&mdash;clean Omega-3s,
-            greens, and adaptogens with links straight to trusted stores.
+            These blends keep context switching calm - clean Omega-3s, greens,
+            and adaptogens with links straight to trusted stores.
           </p>
         </div>
         <div class="product-grid" data-product-grid="supplement"></div>
@@ -95,109 +96,7 @@
           Loading fuel picks...
         </p>
       </section>
-
-      <section class="creator-console" data-admin-panel>
-        <header class="creator-console__header">
-          <div>
-            <p class="collection__eyebrow">Creator console</p>
-            <h2>Manage recommendations</h2>
-          </div>
-          <button
-            class="creator-console__logout"
-            type="button"
-            data-admin-logout
-            hidden
-          >
-            Sign out
-          </button>
-        </header>
-        <p class="creator-console__status" data-admin-status>
-          Sign in with your admin account to add a new beauty or supplement
-          feature.
-        </p>
-
-        <form class="creator-console__form" data-admin-login novalidate>
-          <div class="form-row">
-            <label for="admin-email">Admin email</label>
-            <input
-              id="admin-email"
-              name="email"
-              type="email"
-              placeholder="you@lior-benjman.work"
-              autocomplete="email"
-              required
-            />
-          </div>
-          <div class="form-row">
-            <label for="admin-password">Password</label>
-            <input
-              id="admin-password"
-              name="password"
-              type="password"
-              placeholder="••••••••"
-              autocomplete="current-password"
-              required
-            />
-          </div>
-          <button class="button button-primary" type="submit">
-            Sign in & manage
-          </button>
-        </form>
-
-        <form
-          class="creator-console__form creator-console__form--product"
-          data-product-form
-          hidden
-          novalidate
-        >
-          <div class="form-grid">
-            <label>
-              Product name
-              <input
-                name="name"
-                type="text"
-                placeholder="HydraBloom Peptide Moisturizer"
-                required
-              />
-            </label>
-            <label>
-              Category
-              <select name="category" required>
-                <option value="beauty">Beauty ritual</option>
-                <option value="supplement">Food supplement</option>
-              </select>
-            </label>
-            <label>
-              Image URL
-              <input
-                name="imageUrl"
-                type="url"
-                placeholder="https://"
-                required
-              />
-            </label>
-            <label>
-              Purchase link
-              <input
-                name="linkUrl"
-                type="url"
-                placeholder="https://"
-                required
-              />
-            </label>
-          </div>
-          <button class="button button-secondary" type="submit">
-            Publish new product
-          </button>
-        </form>
-
-        <p
-          class="creator-console__feedback"
-          data-admin-feedback
-          aria-live="polite"
-        ></p>
-      </section>
     </main>
-    <script defer src="/js/shop.js"></script>
+    <script defer src="/js/shop.js?v=4"></script>
   </body>
 </html>

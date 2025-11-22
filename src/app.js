@@ -16,6 +16,22 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const publicDir = path.join(__dirname, 'public');
 
+const cspDirectives = helmet.contentSecurityPolicy
+  ? helmet.contentSecurityPolicy.getDefaultDirectives()
+  : null;
+const helmetOptions =
+  cspDirectives !== null
+    ? {
+        contentSecurityPolicy: {
+          directives: {
+            ...cspDirectives,
+            'img-src': ["'self'", 'data:', 'https:'],
+            'media-src': ["'self'", 'data:', 'https:'],
+          },
+        },
+      }
+    : undefined;
+
 const metricStore = {
   totalRequests: new Map(),
   durationSum: new Map(),
@@ -83,7 +99,7 @@ const collectMetrics = () => {
   return `${lines.join('\n')}\n`;
 };
 
-app.use(helmet());
+app.use(helmet(helmetOptions));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -129,6 +145,11 @@ app.get('/shop', (req, res) => {
   res.sendFile(path.join(publicDir, 'shop.html'));
 });
 
+app.get('/creator', (req, res) => {
+  logger.info('Serving creator console page');
+  res.sendFile(path.join(publicDir, 'creator.html'));
+});
+
 app.get('/sign-in', (req, res) => {
   res.sendFile(path.join(publicDir, 'signin.html'));
 });
@@ -165,6 +186,45 @@ app.get('/api', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/products', productsRoutes);
+
+app.use((error, req, res, next) => {
+  logger.error('Unhandled error while processing request', {
+    path: req.path,
+    method: req.method,
+    error,
+  });
+
+  if (res.headersSent) {
+    return next(error);
+  }
+
+  const status = error?.status || error?.statusCode || 500;
+  const response = {
+    error: status >= 500 ? 'Internal server error' : 'Request failed',
+  };
+
+  const missingShopTable =
+    typeof error?.message === 'string' &&
+    error.message.toLowerCase().includes('shop_products');
+
+  if (error?.code === 'SHOP_NOT_READY') {
+    response.error = 'Shop catalog is not initialised';
+    response.details =
+      error.details ||
+      'Run `npm run db:migrate` to create the shop_products table with its seed data.';
+  } else if (missingShopTable) {
+    response.error = 'Shop catalog is not initialised';
+    response.details =
+      'Run the latest database migrations (npm run db:migrate) to create the shop_products table.';
+  } else if (
+    error?.message &&
+    (process.env.NODE_ENV !== 'production' || status < 500)
+  ) {
+    response.details = error.message;
+  }
+
+  res.status(status).json(response);
+});
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
