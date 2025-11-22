@@ -87,7 +87,7 @@ const ensureShopCatalog = async () => {
 
         const existing = await db
           .select({
-            count: sql < number > 'count(*)'.as('count'),
+            count: sql`count(*)`.as('count'),
           })
           .from(shopProducts);
 
