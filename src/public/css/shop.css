@@ -154,6 +154,7 @@
   aspect-ratio: 4 / 5;
   overflow: hidden;
   margin: 0;
+  max-height: 450px;
 }
 
 .product-card__image img {
