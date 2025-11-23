@@ -22,14 +22,14 @@ const cspDirectives = helmet.contentSecurityPolicy
 const helmetOptions =
   cspDirectives !== null
     ? {
-        contentSecurityPolicy: {
-          directives: {
-            ...cspDirectives,
-            'img-src': ["'self'", 'data:', 'https:'],
-            'media-src': ["'self'", 'data:', 'https:'],
-          },
+      contentSecurityPolicy: {
+        directives: {
+          ...cspDirectives,
+          'img-src': ['\'self\'', 'data:', 'https:'],
+          'media-src': ['\'self\'', 'data:', 'https:'],
         },
-      }
+      },
+    }
     : undefined;
 
 const metricStore = {
