@@ -25,8 +25,8 @@ const helmetOptions =
       contentSecurityPolicy: {
         directives: {
           ...cspDirectives,
-          'img-src': ['\'self\'', 'data:', 'https:'],
-          'media-src': ['\'self\'', 'data:', 'https:'],
+          'img-src': ["'self'", 'data:', 'https:'],
+          'media-src': ["'self'", 'data:', 'https:'],
         },
       },
     }
