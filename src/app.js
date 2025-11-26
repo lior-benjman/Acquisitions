@@ -10,6 +10,7 @@ import authRoutes from '#routes/auth.routes.js';
 import securityMiddleware from '#middleware/security.middleware.js';
 import usersRoutes from '#routes/users.routes.js';
 import productsRoutes from '#routes/products.routes.js';
+import healthRoutes from '#routes/health.routes.js';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -158,6 +159,10 @@ app.get('/sign-up', (req, res) => {
   res.sendFile(path.join(publicDir, 'signup.html'));
 });
 
+app.get('/health-app', (req, res) => {
+  res.sendFile(path.join(publicDir, 'health-app.html'));
+});
+
 app.use('/api', securityMiddleware);
 
 app.get('/health', (req, res) => {
@@ -186,6 +191,7 @@ app.get('/api', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/products', productsRoutes);
+app.use('/api/health', healthRoutes);
 
 app.use((error, req, res, next) => {
   logger.error('Unhandled error while processing request', {
